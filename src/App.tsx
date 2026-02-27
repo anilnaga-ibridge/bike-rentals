@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import BikesPage from "./pages/BikesPage";
 import BikeDetailsPage from "./pages/BikeDetailsPage";
 import MyBookingsPage from "./pages/MyBookingsPage";
+import CustomerProfilePage from "./pages/CustomerProfilePage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminBikesPage from "./pages/admin/AdminBikesPage";
 import AdminBookingsPage from "./pages/admin/AdminBookingsPage";
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/bikes" element={<BikesPage />} />
             <Route path="/bikes/:id" element={<BikeDetailsPage />} />
             <Route path="/bookings" element={<MyBookingsPage />} />
+            <Route path="/profile" element={<CustomerProfilePage />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/bikes" element={<AdminBikesPage />} />
             <Route path="/admin/bookings" element={<AdminBookingsPage />} />

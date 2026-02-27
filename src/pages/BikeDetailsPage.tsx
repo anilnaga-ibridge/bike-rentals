@@ -1,29 +1,14 @@
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { bikes, addOns } from '@/data/bikes';
+import { bikes } from '@/data/bikes';
 import { Star, ArrowLeft, Gauge, Settings, Fuel, Ruler, Weight, Zap } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useState, useMemo } from 'react';
-import { Checkbox } from '@/components/ui/checkbox';
-import { toast } from 'sonner';
+import { BookingForm } from '@/components/booking/BookingForm';
+import { BikeReviews } from '@/components/booking/BikeReviews';
 
 export default function BikeDetailsPage() {
   const { id } = useParams();
   const bike = bikes.find((b) => b.id === id);
-  const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]);
-  const [days, setDays] = useState(1);
-  const [isWeekend, setIsWeekend] = useState(false);
-
-  const totalPrice = useMemo(() => {
-    if (!bike) return 0;
-    const basePrice = bike.pricePerDay * days * (isWeekend ? bike.weekendMultiplier : 1);
-    const addOnPrice = selectedAddOns.reduce((sum, id) => {
-      const addon = addOns.find((a) => a.id === id);
-      return sum + (addon ? addon.pricePerDay * days : 0);
-    }, 0);
-    return Math.round(basePrice + addOnPrice + bike.deposit);
-  }, [bike, days, isWeekend, selectedAddOns]);
 
   if (!bike) {
     return (
@@ -33,12 +18,6 @@ export default function BikeDetailsPage() {
       </div>
     );
   }
-
-  const toggleAddOn = (addOnId: string) => {
-    setSelectedAddOns((prev) =>
-      prev.includes(addOnId) ? prev.filter((id) => id !== addOnId) : [...prev, addOnId]
-    );
-  };
 
   const specs = [
     { icon: Gauge, label: 'Engine', value: `${bike.engineCC}cc` },
@@ -108,15 +87,15 @@ export default function BikeDetailsPage() {
               ))}
             </div>
 
-            {/* Pricing */}
-            <div className="glass rounded-xl p-6 space-y-4">
+            {/* Pricing Info */}
+            <div className="glass rounded-xl p-6 space-y-3">
               <h3 className="font-display text-2xl">PRICING</h3>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Per Hour</span>
                 <span className="font-semibold">${bike.pricePerHour}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Per Day</span>
+                <span className="text-muted-foreground">Per Day (24h)</span>
                 <span className="font-semibold">${bike.pricePerDay}</span>
               </div>
               <div className="flex justify-between text-sm">
@@ -124,82 +103,18 @@ export default function BikeDetailsPage() {
                 <span className="font-semibold text-primary">{bike.weekendMultiplier}x</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Security Deposit</span>
+                <span className="text-muted-foreground">Security Deposit (refundable)</span>
                 <span className="font-semibold">${bike.deposit}</span>
               </div>
             </div>
 
-            {/* Booking Config */}
-            <div className="glass rounded-xl p-6 space-y-4">
-              <h3 className="font-display text-2xl">BOOK THIS BIKE</h3>
-
-              <div className="flex items-center gap-4">
-                <label className="text-sm text-muted-foreground">Days:</label>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setDays(Math.max(1, days - 1))}
-                    className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center text-foreground hover:bg-muted transition-colors"
-                  >
-                    -
-                  </button>
-                  <span className="w-8 text-center font-semibold">{days}</span>
-                  <button
-                    onClick={() => setDays(days + 1)}
-                    className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center text-foreground hover:bg-muted transition-colors"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Checkbox
-                  checked={isWeekend}
-                  onCheckedChange={(v) => setIsWeekend(!!v)}
-                  id="weekend"
-                />
-                <label htmlFor="weekend" className="text-sm text-muted-foreground cursor-pointer">
-                  Weekend rental ({bike.weekendMultiplier}x rate)
-                </label>
-              </div>
-
-              {/* Add-ons */}
-              <div className="space-y-2">
-                <p className="text-sm text-muted-foreground">Add-ons:</p>
-                {addOns.map((addon) => (
-                  <div key={addon.id} className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Checkbox
-                        checked={selectedAddOns.includes(addon.id)}
-                        onCheckedChange={() => toggleAddOn(addon.id)}
-                        id={addon.id}
-                      />
-                      <label htmlFor={addon.id} className="text-sm cursor-pointer">
-                        {addon.icon} {addon.name}
-                      </label>
-                    </div>
-                    <span className="text-xs text-muted-foreground">${addon.pricePerDay}/day</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Total */}
-              <div className="border-t border-border pt-4 flex justify-between items-center">
-                <span className="text-muted-foreground">Total (incl. deposit)</span>
-                <span className="font-display text-3xl text-primary">${totalPrice}</span>
-              </div>
-
-              <Button
-                className="w-full text-base font-bold glow-strong"
-                size="lg"
-                disabled={!bike.available}
-                onClick={() => toast.success('Booking confirmed! Check your dashboard.')}
-              >
-                {bike.available ? 'Book Now' : 'Currently Unavailable'}
-              </Button>
-            </div>
+            {/* Booking Form with Date/Time */}
+            <BookingForm bike={bike} />
           </motion.div>
         </div>
+
+        {/* Reviews */}
+        <BikeReviews bikeId={bike.id} />
       </div>
     </div>
   );

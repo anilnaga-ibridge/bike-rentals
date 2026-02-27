@@ -1,14 +1,20 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Menu, X, User, Bike } from 'lucide-react';
+import { Menu, X, User, Bike, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu';
 
 const navItems = [
   { label: 'Home', path: '/' },
   { label: 'Fleet', path: '/bikes' },
   { label: 'My Bookings', path: '/bookings' },
-  { label: 'Admin', path: '/admin' },
 ];
 
 export function Navbar() {
@@ -45,10 +51,38 @@ export function Navbar() {
               {item.label}
             </Link>
           ))}
-          <Button size="sm" className="font-semibold">
-            <User className="mr-2 h-4 w-4" />
-            Sign In
-          </Button>
+
+          {/* Admin Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger className={`text-sm font-medium tracking-wide uppercase transition-colors duration-300 flex items-center gap-1 ${
+              location.pathname.startsWith('/admin') ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+            }`}>
+              Admin <ChevronDown className="h-3 w-3" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem asChild><Link to="/admin">Dashboard</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild><Link to="/admin/bikes">Manage Bikes</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild><Link to="/admin/bookings">Manage Bookings</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild><Link to="/admin/customers">Customers</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild><Link to="/admin/maintenance">Maintenance</Link></DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* User Menu */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="sm" className="font-semibold">
+                <User className="mr-2 h-4 w-4" />
+                Account
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-44">
+              <DropdownMenuItem asChild><Link to="/profile">My Profile</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild><Link to="/bookings">My Bookings</Link></DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="text-primary">Sign In</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         {/* Mobile toggle */}
@@ -65,7 +99,7 @@ export function Navbar() {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden glass border-t border-border px-6 py-4 space-y-4"
+          className="md:hidden glass border-t border-border px-6 py-4 space-y-3"
         >
           {navItems.map((item) => (
             <Link
@@ -73,17 +107,16 @@ export function Navbar() {
               to={item.path}
               onClick={() => setMobileOpen(false)}
               className={`block text-sm font-medium uppercase tracking-wide ${
-                location.pathname === item.path
-                  ? 'text-primary'
-                  : 'text-muted-foreground'
+                location.pathname === item.path ? 'text-primary' : 'text-muted-foreground'
               }`}
             >
               {item.label}
             </Link>
           ))}
+          <Link to="/admin" onClick={() => setMobileOpen(false)} className="block text-sm font-medium uppercase tracking-wide text-muted-foreground">Admin</Link>
+          <Link to="/profile" onClick={() => setMobileOpen(false)} className="block text-sm font-medium uppercase tracking-wide text-muted-foreground">Profile</Link>
           <Button size="sm" className="w-full font-semibold">
-            <User className="mr-2 h-4 w-4" />
-            Sign In
+            <User className="mr-2 h-4 w-4" /> Sign In
           </Button>
         </motion.div>
       )}

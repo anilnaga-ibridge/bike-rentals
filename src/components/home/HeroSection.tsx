@@ -4,9 +4,17 @@ import { Button } from '@/components/ui/button';
 import { cities } from '@/data/bikes';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 
 export function HeroSection() {
   const [city, setCity] = useState('');
+  const [pickupDate, setPickupDate] = useState<Date>();
+  const [returnDate, setReturnDate] = useState<Date>();
+  const [pickupTime, setPickupTime] = useState('09:00');
+  const [returnTime, setReturnTime] = useState('18:00');
   const navigate = useNavigate();
 
   return (
@@ -21,6 +29,23 @@ export function HeroSection() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background" />
         <div className="absolute inset-0 bg-gradient-to-r from-background/70 to-transparent" />
+      </div>
+
+      {/* Animated particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(3)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-64 h-64 rounded-full bg-primary/5 blur-[100px]"
+            animate={{
+              x: [0, 100, -50, 0],
+              y: [0, -80, 60, 0],
+              scale: [1, 1.2, 0.9, 1],
+            }}
+            transition={{ duration: 15 + i * 5, repeat: Infinity, ease: 'linear' }}
+            style={{ left: `${20 + i * 30}%`, top: `${30 + i * 15}%` }}
+          />
+        ))}
       </div>
 
       {/* Content */}
@@ -44,7 +69,7 @@ export function HeroSection() {
             RIDE{' '}
             <span className="text-gradient">FREEDOM</span>
             <br />
-            <span className="text-muted-foreground text-5xl sm:text-6xl md:text-7xl">
+            <span className="text-muted-foreground text-4xl sm:text-5xl md:text-6xl">
               RENT PREMIUM BIKES INSTANTLY
             </span>
           </h1>
@@ -67,10 +92,11 @@ export function HeroSection() {
           transition={{ delay: 0.6, duration: 0.8 }}
           className="glass rounded-2xl p-6 max-w-5xl"
         >
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            {/* City */}
             <div className="space-y-2">
               <label className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                <MapPin className="h-3 w-3 text-primary" /> Pickup Location
+                <MapPin className="h-3 w-3 text-primary" /> Location
               </label>
               <select
                 value={city}
@@ -84,26 +110,63 @@ export function HeroSection() {
               </select>
             </div>
 
+            {/* Pickup Date */}
             <div className="space-y-2">
               <label className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-2">
                 <Calendar className="h-3 w-3 text-primary" /> Pickup Date
               </label>
-              <input
-                type="date"
-                className="w-full bg-secondary border-none rounded-lg px-4 py-3 text-foreground text-sm focus:ring-1 focus:ring-primary outline-none"
-              />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button className={cn(
+                    "w-full bg-secondary rounded-lg px-4 py-3 text-sm text-left",
+                    !pickupDate && "text-muted-foreground"
+                  )}>
+                    {pickupDate ? format(pickupDate, 'MMM dd, yyyy') : 'Select date'}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarComponent mode="single" selected={pickupDate} onSelect={setPickupDate} disabled={(d) => d < new Date()} className="p-3 pointer-events-auto" />
+                </PopoverContent>
+              </Popover>
             </div>
 
+            {/* Pickup Time */}
             <div className="space-y-2">
               <label className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                <Clock className="h-3 w-3 text-primary" /> Return Date
+                <Clock className="h-3 w-3 text-primary" /> Pickup Time
               </label>
-              <input
-                type="date"
+              <select
+                value={pickupTime}
+                onChange={(e) => setPickupTime(e.target.value)}
                 className="w-full bg-secondary border-none rounded-lg px-4 py-3 text-foreground text-sm focus:ring-1 focus:ring-primary outline-none"
-              />
+              >
+                {Array.from({ length: 24 }, (_, i) => `${i.toString().padStart(2, '0')}:00`).map((t) => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
             </div>
 
+            {/* Return Date */}
+            <div className="space-y-2">
+              <label className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+                <Calendar className="h-3 w-3 text-primary" /> Return Date
+              </label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button className={cn(
+                    "w-full bg-secondary rounded-lg px-4 py-3 text-sm text-left",
+                    !returnDate && "text-muted-foreground"
+                  )}>
+                    {returnDate ? format(returnDate, 'MMM dd, yyyy') : 'Select date'}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarComponent mode="single" selected={returnDate} onSelect={setReturnDate} disabled={(d) => d < (pickupDate || new Date())} className="p-3 pointer-events-auto" />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            {/* CTA */}
             <div className="flex items-end">
               <Button
                 onClick={() => navigate('/bikes')}
@@ -111,7 +174,7 @@ export function HeroSection() {
                 size="lg"
               >
                 <Search className="mr-2 h-5 w-5" />
-                Check Availability
+                Search
               </Button>
             </div>
           </div>
