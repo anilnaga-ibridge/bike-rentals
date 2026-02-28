@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -10,13 +10,23 @@ import BikesPage from "./pages/BikesPage";
 import BikeDetailsPage from "./pages/BikeDetailsPage";
 import MyBookingsPage from "./pages/MyBookingsPage";
 import CustomerProfilePage from "./pages/CustomerProfilePage";
+import TripPackagesPage from "./pages/TripPackagesPage";
+import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminBikesPage from "./pages/admin/AdminBikesPage";
 import AdminBookingsPage from "./pages/admin/AdminBookingsPage";
 import AdminCustomersPage from "./pages/admin/AdminCustomersPage";
 import AdminMaintenancePage from "./pages/admin/AdminMaintenancePage";
+import AdminCouponsPage from "./pages/admin/AdminCouponsPage";
+import AdminPackagesPage from "./pages/admin/AdminPackagesPage";
 
 const queryClient = new QueryClient();
+
+function AdminGuard({ children }: { children: React.ReactNode }) {
+  const isAdmin = localStorage.getItem('ridex_admin') === 'true';
+  if (!isAdmin) return <Navigate to="/admin/login" replace />;
+  return <>{children}</>;
+}
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -31,11 +41,15 @@ const App = () => (
             <Route path="/bikes/:id" element={<BikeDetailsPage />} />
             <Route path="/bookings" element={<MyBookingsPage />} />
             <Route path="/profile" element={<CustomerProfilePage />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/bikes" element={<AdminBikesPage />} />
-            <Route path="/admin/bookings" element={<AdminBookingsPage />} />
-            <Route path="/admin/customers" element={<AdminCustomersPage />} />
-            <Route path="/admin/maintenance" element={<AdminMaintenancePage />} />
+            <Route path="/packages" element={<TripPackagesPage />} />
+            <Route path="/admin/login" element={<AdminLoginPage />} />
+            <Route path="/admin" element={<AdminGuard><AdminDashboard /></AdminGuard>} />
+            <Route path="/admin/bikes" element={<AdminGuard><AdminBikesPage /></AdminGuard>} />
+            <Route path="/admin/bookings" element={<AdminGuard><AdminBookingsPage /></AdminGuard>} />
+            <Route path="/admin/customers" element={<AdminGuard><AdminCustomersPage /></AdminGuard>} />
+            <Route path="/admin/maintenance" element={<AdminGuard><AdminMaintenancePage /></AdminGuard>} />
+            <Route path="/admin/coupons" element={<AdminGuard><AdminCouponsPage /></AdminGuard>} />
+            <Route path="/admin/packages" element={<AdminGuard><AdminPackagesPage /></AdminGuard>} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

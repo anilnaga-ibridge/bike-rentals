@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { Star, Play, Quote } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Star, Play, Quote, X } from 'lucide-react';
 import { testimonials } from '@/data/reviews';
 import { useState } from 'react';
 
@@ -22,26 +22,32 @@ export function TestimonialsSection() {
           <h2 className="font-display text-5xl md:text-7xl">
             WHAT RIDERS <span className="text-gradient">SAY</span>
           </h2>
+          <p className="text-muted-foreground mt-3 max-w-xl mx-auto text-sm">
+            Real stories from riders who experienced the RideX difference
+          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {testimonials.map((t, i) => (
             <motion.div
               key={t.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 40, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.12, duration: 0.6 }}
+              transition={{ delay: i * 0.12, duration: 0.7, ease: 'easeOut' }}
+              whileHover={{ y: -4, transition: { duration: 0.3 } }}
               className="glass rounded-2xl overflow-hidden group"
             >
               {/* Media */}
               {(t.image || t.videoThumbnail) && (
                 <div className="relative aspect-[16/9] overflow-hidden">
-                  <img
+                  <motion.img
                     src={t.videoThumbnail || t.image}
                     alt={`${t.name}'s experience`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover"
                     loading="lazy"
+                    whileHover={{ scale: 1.08 }}
+                    transition={{ duration: 0.8 }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-card/30 to-transparent" />
                   {t.videoUrl && (
@@ -49,10 +55,21 @@ export function TestimonialsSection() {
                       onClick={() => setActiveVideo(t.videoUrl!)}
                       className="absolute inset-0 flex items-center justify-center"
                     >
-                      <div className="w-16 h-16 rounded-full bg-primary/90 flex items-center justify-center glow-strong group-hover:scale-110 transition-transform">
+                      <motion.div
+                        whileHover={{ scale: 1.15 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="w-16 h-16 rounded-full bg-primary/90 flex items-center justify-center glow-strong"
+                      >
                         <Play className="h-6 w-6 text-primary-foreground ml-1" />
-                      </div>
+                      </motion.div>
                     </button>
+                  )}
+                  {t.videoUrl && (
+                    <div className="absolute top-3 right-3">
+                      <span className="text-[10px] uppercase tracking-wider bg-primary/80 text-primary-foreground px-2 py-0.5 rounded-full font-bold">
+                        📹 Video
+                      </span>
+                    </div>
                   )}
                 </div>
               )}
@@ -64,10 +81,17 @@ export function TestimonialsSection() {
 
                 <div className="flex items-center gap-0.5">
                   {Array.from({ length: 5 }).map((_, j) => (
-                    <Star
+                    <motion.div
                       key={j}
-                      className={`h-4 w-4 ${j < t.rating ? 'fill-primary text-primary' : 'text-muted'}`}
-                    />
+                      initial={{ opacity: 0, scale: 0 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.1 + j * 0.05, duration: 0.3 }}
+                    >
+                      <Star
+                        className={`h-4 w-4 ${j < t.rating ? 'fill-primary text-primary' : 'text-muted'}`}
+                      />
+                    </motion.div>
                   ))}
                 </div>
 
@@ -89,6 +113,35 @@ export function TestimonialsSection() {
             </motion.div>
           ))}
         </div>
+
+        {/* Video Modal */}
+        <AnimatePresence>
+          {activeVideo && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 backdrop-blur-sm"
+              onClick={() => setActiveVideo(null)}
+            >
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                className="relative w-full max-w-3xl mx-6 aspect-video glass rounded-2xl overflow-hidden flex items-center justify-center"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <p className="text-muted-foreground text-sm">Video player placeholder</p>
+                <button
+                  onClick={() => setActiveVideo(null)}
+                  className="absolute top-4 right-4 p-2 glass rounded-full hover:bg-secondary transition-colors"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );

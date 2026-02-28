@@ -1,10 +1,13 @@
 import { useState, useMemo } from 'react';
 import { Bike, addOns } from '@/data/bikes';
+import { sampleCoupons } from '@/data/coupons';
 import { DateTimePicker } from './DateTimePicker';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import { differenceInHours } from 'date-fns';
+import { Tag, Check, X } from 'lucide-react';
 
 interface BookingFormProps {
   bike: Bike;
@@ -16,6 +19,8 @@ export function BookingForm({ bike }: BookingFormProps) {
   const [returnDate, setReturnDate] = useState<Date>();
   const [returnTime, setReturnTime] = useState('18:00');
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]);
+  const [couponCode, setCouponCode] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState<typeof sampleCoupons[0] | null>(null);
 
   const toggleAddOn = (id: string) => {
     setSelectedAddOns((prev) =>
@@ -38,7 +43,6 @@ export function BookingForm({ bike }: BookingFormProps) {
     const totalDays = Math.ceil(totalHours / 24);
     const remainingHours = totalHours % 24;
 
-    // Check weekend days
     let weekendDays = 0;
     for (let d = new Date(pickup); d <= ret; d.setDate(d.getDate() + 1)) {
       const day = d.getDay();
@@ -55,16 +59,51 @@ export function BookingForm({ bike }: BookingFormProps) {
       return sum + (addon ? addon.pricePerDay * Math.max(1, totalDays) : 0);
     }, 0);
 
+    const subtotal = rentalCost + addOnCost;
+
+    let discount = 0;
+    if (appliedCoupon) {
+      if (subtotal >= appliedCoupon.minOrderAmount) {
+        if (appliedCoupon.type === 'percentage') {
+          discount = Math.min(Math.round(subtotal * appliedCoupon.value / 100), appliedCoupon.maxDiscount);
+        } else {
+          discount = Math.min(appliedCoupon.value, appliedCoupon.maxDiscount);
+        }
+      }
+    }
+
     return {
       totalHours,
       totalDays,
       rentalCost,
       addOnCost,
+      subtotal,
+      discount,
       deposit: bike.deposit,
-      total: rentalCost + addOnCost + bike.deposit,
+      total: subtotal - discount + bike.deposit,
       weekendDays,
     };
-  }, [pickupDate, returnDate, pickupTime, returnTime, selectedAddOns, bike]);
+  }, [pickupDate, returnDate, pickupTime, returnTime, selectedAddOns, bike, appliedCoupon]);
+
+  const applyCoupon = () => {
+    const coupon = sampleCoupons.find(c => c.code === couponCode.toUpperCase() && c.active);
+    if (!coupon) {
+      toast.error('Invalid or expired coupon code');
+      return;
+    }
+    if (pricing && pricing.subtotal < coupon.minOrderAmount) {
+      toast.error(`Minimum order amount is $${coupon.minOrderAmount}`);
+      return;
+    }
+    setAppliedCoupon(coupon);
+    toast.success(`Coupon ${coupon.code} applied! ${coupon.type === 'percentage' ? `${coupon.value}% off` : `$${coupon.value} off`}`);
+  };
+
+  const removeCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponCode('');
+    toast.info('Coupon removed');
+  };
 
   const handleBooking = () => {
     if (!pickupDate || !returnDate) {
@@ -116,6 +155,38 @@ export function BookingForm({ bike }: BookingFormProps) {
         ))}
       </div>
 
+      {/* Coupon Code */}
+      <div className="space-y-2">
+        <p className="text-xs uppercase tracking-wider text-muted-foreground">Coupon Code</p>
+        {appliedCoupon ? (
+          <div className="flex items-center justify-between bg-primary/10 border border-primary/20 rounded-lg px-4 py-2.5">
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4 text-emerald-400" />
+              <code className="font-mono font-bold text-sm text-primary">{appliedCoupon.code}</code>
+              <span className="text-xs text-muted-foreground">
+                ({appliedCoupon.type === 'percentage' ? `${appliedCoupon.value}%` : `$${appliedCoupon.value}`} off)
+              </span>
+            </div>
+            <button onClick={removeCoupon} className="text-muted-foreground hover:text-destructive transition-colors">
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        ) : (
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <Tag className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                value={couponCode}
+                onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                placeholder="Enter code"
+                className="bg-secondary border-none pl-10 uppercase font-mono"
+              />
+            </div>
+            <Button variant="outline" size="sm" onClick={applyCoupon} disabled={!couponCode}>Apply</Button>
+          </div>
+        )}
+      </div>
+
       {/* Price Breakdown */}
       {pricing && (
         <div className="border-t border-border pt-4 space-y-2">
@@ -137,6 +208,12 @@ export function BookingForm({ bike }: BookingFormProps) {
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Add-ons</span>
               <span>${pricing.addOnCost}</span>
+            </div>
+          )}
+          {pricing.discount > 0 && (
+            <div className="flex justify-between text-sm text-emerald-400">
+              <span>Coupon Discount</span>
+              <span>-${pricing.discount}</span>
             </div>
           )}
           <div className="flex justify-between text-sm">

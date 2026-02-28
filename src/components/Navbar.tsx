@@ -1,6 +1,6 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Menu, X, User, Bike, ChevronDown } from 'lucide-react';
+import { Menu, X, User, Bike, ChevronDown, Package } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,12 +14,14 @@ import {
 const navItems = [
   { label: 'Home', path: '/' },
   { label: 'Fleet', path: '/bikes' },
+  { label: 'Packages', path: '/packages' },
   { label: 'My Bookings', path: '/bookings' },
 ];
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <motion.nav
@@ -52,22 +54,6 @@ export function Navbar() {
             </Link>
           ))}
 
-          {/* Admin Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger className={`text-sm font-medium tracking-wide uppercase transition-colors duration-300 flex items-center gap-1 ${
-              location.pathname.startsWith('/admin') ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
-            }`}>
-              Admin <ChevronDown className="h-3 w-3" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem asChild><Link to="/admin">Dashboard</Link></DropdownMenuItem>
-              <DropdownMenuItem asChild><Link to="/admin/bikes">Manage Bikes</Link></DropdownMenuItem>
-              <DropdownMenuItem asChild><Link to="/admin/bookings">Manage Bookings</Link></DropdownMenuItem>
-              <DropdownMenuItem asChild><Link to="/admin/customers">Customers</Link></DropdownMenuItem>
-              <DropdownMenuItem asChild><Link to="/admin/maintenance">Maintenance</Link></DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
           {/* User Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -80,7 +66,9 @@ export function Navbar() {
               <DropdownMenuItem asChild><Link to="/profile">My Profile</Link></DropdownMenuItem>
               <DropdownMenuItem asChild><Link to="/bookings">My Bookings</Link></DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-primary">Sign In</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate('/admin/login')} className="text-primary">
+                Admin Login
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -113,10 +101,9 @@ export function Navbar() {
               {item.label}
             </Link>
           ))}
-          <Link to="/admin" onClick={() => setMobileOpen(false)} className="block text-sm font-medium uppercase tracking-wide text-muted-foreground">Admin</Link>
           <Link to="/profile" onClick={() => setMobileOpen(false)} className="block text-sm font-medium uppercase tracking-wide text-muted-foreground">Profile</Link>
-          <Button size="sm" className="w-full font-semibold">
-            <User className="mr-2 h-4 w-4" /> Sign In
+          <Button size="sm" className="w-full font-semibold" onClick={() => { setMobileOpen(false); navigate('/admin/login'); }}>
+            Admin Login
           </Button>
         </motion.div>
       )}

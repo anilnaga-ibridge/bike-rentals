@@ -55,6 +55,8 @@ const adminLinks = [
   { label: 'Bookings', path: '/admin/bookings', icon: '📅', desc: 'All bookings' },
   { label: 'Customers', path: '/admin/customers', icon: '👥', desc: 'User management' },
   { label: 'Maintenance', path: '/admin/maintenance', icon: '🔧', desc: 'Fleet health' },
+  { label: 'Coupons', path: '/admin/coupons', icon: '🏷️', desc: 'Discount codes' },
+  { label: 'Trip Packages', path: '/admin/packages', icon: '🗺️', desc: 'Curated trips' },
 ];
 
 const chartTooltipStyle = {
@@ -216,7 +218,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Quick Links */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {adminLinks.map((link, i) => (
             <motion.div
               key={link.path}
