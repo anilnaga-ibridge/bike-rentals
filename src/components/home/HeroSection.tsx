@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { MapPin, Calendar, Clock, Search } from 'lucide-react';
+import { MapPin, Calendar, Clock, Search, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cities } from '@/data/bikes';
 import { useState } from 'react';
@@ -8,6 +8,15 @@ import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
+
+const floatingVariants = {
+  animate: (i: number) => ({
+    y: [0, -20, 0],
+    x: [0, 10 * (i % 2 === 0 ? 1 : -1), 0],
+    opacity: [0.3, 0.6, 0.3],
+    transition: { duration: 6 + i * 2, repeat: Infinity, ease: 'easeInOut' as const },
+  }),
+};
 
 export function HeroSection() {
   const [city, setCity] = useState('');
@@ -33,18 +42,40 @@ export function HeroSection() {
 
       {/* Animated particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(3)].map((_, i) => (
+        {[...Array(6)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-64 h-64 rounded-full bg-primary/5 blur-[100px]"
-            animate={{
-              x: [0, 100, -50, 0],
-              y: [0, -80, 60, 0],
-              scale: [1, 1.2, 0.9, 1],
+            custom={i}
+            variants={floatingVariants}
+            animate="animate"
+            className="absolute rounded-full bg-primary/8 blur-[80px]"
+            style={{
+              width: `${120 + i * 60}px`,
+              height: `${120 + i * 60}px`,
+              left: `${10 + i * 15}%`,
+              top: `${15 + (i % 3) * 25}%`,
             }}
-            transition={{ duration: 15 + i * 5, repeat: Infinity, ease: 'linear' }}
-            style={{ left: `${20 + i * 30}%`, top: `${30 + i * 15}%` }}
           />
+        ))}
+      </div>
+
+      {/* Floating sparkles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(5)].map((_, i) => (
+          <motion.div
+            key={`sparkle-${i}`}
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: [0, 1, 0],
+              y: [-10, -60],
+              x: [0, (i % 2 === 0 ? 20 : -20)],
+            }}
+            transition={{ duration: 3, delay: i * 1.2, repeat: Infinity }}
+            className="absolute"
+            style={{ left: `${20 + i * 15}%`, top: `${40 + (i % 3) * 15}%` }}
+          >
+            <Sparkles className="h-4 w-4 text-primary/40" />
+          </motion.div>
         ))}
       </div>
 
@@ -57,7 +88,7 @@ export function HeroSection() {
           className="max-w-4xl"
         >
           <motion.p
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-primary font-medium tracking-[0.3em] uppercase text-sm mb-4"
@@ -65,19 +96,42 @@ export function HeroSection() {
             Premium Bike Rentals
           </motion.p>
 
-          <h1 className="font-display text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] mb-6">
-            RIDE{' '}
-            <span className="text-gradient">FREEDOM</span>
+          <motion.h1
+            className="font-display text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] mb-6"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.8 }}
+          >
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+            >
+              RIDE{' '}
+            </motion.span>
+            <motion.span
+              className="text-gradient"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5, duration: 0.6, type: 'spring' }}
+            >
+              FREEDOM
+            </motion.span>
             <br />
-            <span className="text-muted-foreground text-4xl sm:text-5xl md:text-6xl">
+            <motion.span
+              className="text-muted-foreground text-4xl sm:text-5xl md:text-6xl"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7, duration: 0.6 }}
+            >
               RENT PREMIUM BIKES INSTANTLY
-            </span>
-          </h1>
+            </motion.span>
+          </motion.h1>
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
+            transition={{ delay: 0.9, duration: 0.6 }}
             className="text-muted-foreground text-lg max-w-xl mb-10"
           >
             Experience the thrill of riding world-class motorcycles. Safe, convenient, 
@@ -87,9 +141,9 @@ export function HeroSection() {
 
         {/* Booking Search Box */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
+          initial={{ opacity: 0, y: 40, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ delay: 1.0, duration: 0.8, type: 'spring' }}
           className="glass rounded-2xl p-6 max-w-5xl"
         >
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -184,7 +238,7 @@ export function HeroSection() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 0.8 }}
+          transition={{ delay: 1.3, duration: 0.8 }}
           className="flex flex-wrap gap-10 mt-12 mb-8"
         >
           {[
@@ -192,11 +246,16 @@ export function HeroSection() {
             { value: '5', label: 'Cities' },
             { value: '50K+', label: 'Happy Riders' },
             { value: '4.9', label: 'Average Rating' },
-          ].map((stat) => (
-            <div key={stat.label}>
+          ].map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.4 + i * 0.1, duration: 0.5 }}
+            >
               <p className="font-display text-4xl text-primary">{stat.value}</p>
               <p className="text-xs text-muted-foreground uppercase tracking-wider">{stat.label}</p>
-            </div>
+            </motion.div>
           ))}
         </motion.div>
       </div>
