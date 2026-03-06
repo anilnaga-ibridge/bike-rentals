@@ -1,45 +1,54 @@
 import { Navbar } from './Navbar';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { Bike, MapPin, Phone, Mail } from 'lucide-react';
+import { Bike, MapPin, Phone, Mail, MessageCircle } from 'lucide-react';
 import { HelpCenter } from './HelpCenter';
 
 export function Layout() {
   const location = useLocation();
-  const isAdminLogin = location.pathname === '/admin/login';
+  const isAdmin = location.pathname.startsWith('/admin');
 
   return (
     <div className="min-h-screen bg-background">
-      {!isAdminLogin && <Navbar />}
+      {!isAdmin && <Navbar />}
       <main>
         <Outlet />
       </main>
-      {!isAdminLogin && <HelpCenter />}
-      {!isAdminLogin && (
-        <footer className="border-t border-border pt-16 pb-8 mt-20">
+      {!isAdmin && <HelpCenter />}
+      {!isAdmin && (
+        <footer className="border-t border-border pt-14 pb-8 mt-16">
           <div className="container mx-auto px-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
               <div className="space-y-4">
                 <Link to="/" className="flex items-center gap-2">
-                  <Bike className="h-7 w-7 text-primary" />
-                  <span className="font-display text-2xl">RIDE<span className="text-primary">X</span></span>
+                  <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+                    <Bike className="h-4 w-4 text-primary-foreground" />
+                  </div>
+                  <span className="font-display text-xl">Ride<span className="text-primary">X</span></span>
                 </Link>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Premium bike rentals across 5 cities. Experience the thrill of riding world-class motorcycles.
+                  India's most trusted bike rental platform. Affordable, reliable & available in 6 cities.
                 </p>
               </div>
               <div>
-                <h4 className="font-display text-lg mb-4">EXPLORE</h4>
+                <h4 className="font-display text-base mb-4">Quick Links</h4>
                 <div className="space-y-2">
-                  {[{ label: 'Home', path: '/' }, { label: 'Fleet', path: '/bikes' }, { label: 'Packages', path: '/packages' }, { label: 'My Bookings', path: '/bookings' }, { label: 'Profile', path: '/profile' }].map((l) => (
+                  {[
+                    { label: 'Home', path: '/' },
+                    { label: 'Bikes', path: '/bikes' },
+                    { label: 'Monthly Rentals', path: '/packages' },
+                    { label: 'Offers', path: '/offers' },
+                    { label: 'About', path: '/about' },
+                    { label: 'Contact', path: '/contact' },
+                  ].map((l) => (
                     <Link key={l.path} to={l.path} className="block text-sm text-muted-foreground hover:text-primary transition-colors">{l.label}</Link>
                   ))}
                 </div>
               </div>
               <div>
-                <h4 className="font-display text-lg mb-4">CITIES</h4>
+                <h4 className="font-display text-base mb-4">Cities</h4>
                 <div className="space-y-2">
-                  {['New York', 'Los Angeles', 'Miami', 'Chicago', 'San Francisco'].map((c) => (
+                  {['Bangalore', 'Mumbai', 'Delhi', 'Hyderabad', 'Pune', 'Chennai'].map((c) => (
                     <p key={c} className="text-sm text-muted-foreground flex items-center gap-1.5">
                       <MapPin className="h-3 w-3 text-primary" /> {c}
                     </p>
@@ -47,19 +56,22 @@ export function Layout() {
                 </div>
               </div>
               <div>
-                <h4 className="font-display text-lg mb-4">CONTACT</h4>
-                <div className="space-y-2">
-                  <p className="text-sm text-muted-foreground flex items-center gap-2">
+                <h4 className="font-display text-base mb-4">Contact</h4>
+                <div className="space-y-3">
+                  <a href="tel:+919876543210" className="text-sm text-muted-foreground flex items-center gap-2 hover:text-primary transition-colors">
                     <Phone className="h-3 w-3 text-primary" /> +91 9876543210
-                  </p>
-                  <p className="text-sm text-muted-foreground flex items-center gap-2">
+                  </a>
+                  <a href="mailto:support@ridex.com" className="text-sm text-muted-foreground flex items-center gap-2 hover:text-primary transition-colors">
                     <Mail className="h-3 w-3 text-primary" /> support@ridex.com
-                  </p>
+                  </a>
+                  <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground flex items-center gap-2 hover:text-primary transition-colors">
+                    <MessageCircle className="h-3 w-3 text-primary" /> WhatsApp Chat
+                  </a>
                 </div>
               </div>
             </div>
             <div className="border-t border-border pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-              <p className="text-xs text-muted-foreground">© 2026 RideX. Premium Bike Rentals. All rights reserved.</p>
+              <p className="text-xs text-muted-foreground">© 2026 RideX. All rights reserved.</p>
               <div className="flex gap-6">
                 <span className="text-xs text-muted-foreground hover:text-foreground cursor-pointer transition-colors">Privacy Policy</span>
                 <span className="text-xs text-muted-foreground hover:text-foreground cursor-pointer transition-colors">Terms of Service</span>

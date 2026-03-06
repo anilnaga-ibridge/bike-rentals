@@ -10,7 +10,7 @@ export default function BikesPage() {
   const [category, setCategory] = useState('');
   const [cityFilter, setCityFilter] = useState('');
   const [transmission, setTransmission] = useState('');
-  const [priceRange, setPriceRange] = useState([0, 400]);
+  const [priceRange, setPriceRange] = useState([0, 1500]);
   const [showFilters, setShowFilters] = useState(false);
 
   const filtered = useMemo(() => {
@@ -18,7 +18,8 @@ export default function BikesPage() {
       if (category && b.category !== category) return false;
       if (cityFilter && b.city !== cityFilter) return false;
       if (transmission && b.transmission !== transmission) return false;
-      if (b.pricePerDay < priceRange[0] || b.pricePerDay > priceRange[1]) return false;
+      const minPrice = b.pricingTiers[b.pricingTiers.length - 1].pricePerDay;
+      if (minPrice < priceRange[0] || minPrice > priceRange[1]) return false;
       return true;
     });
   }, [category, cityFilter, transmission, priceRange]);
@@ -26,26 +27,17 @@ export default function BikesPage() {
   return (
     <div className="pt-24 pb-12">
       <div className="container mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <p className="text-primary text-sm font-medium tracking-[0.3em] uppercase mb-2">Our Fleet</p>
-          <div className="flex items-end justify-between">
-            <h1 className="font-display text-5xl md:text-6xl">EXPLORE BIKES</h1>
-            <Button
-              variant="outline"
-              className="lg:hidden"
-              onClick={() => setShowFilters(!showFilters)}
-            >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+          <span className="text-primary text-xs font-semibold tracking-[0.2em] uppercase">Our Fleet</span>
+          <div className="flex items-end justify-between mt-1">
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl">Explore Bikes</h1>
+            <Button variant="outline" className="lg:hidden" onClick={() => setShowFilters(!showFilters)}>
               {showFilters ? <X className="h-4 w-4" /> : <SlidersHorizontal className="h-4 w-4" />}
             </Button>
           </div>
         </motion.div>
 
         <div className="flex gap-8">
-          {/* Filters sidebar */}
           <div className={`${showFilters ? 'block' : 'hidden'} lg:block w-full lg:w-72 flex-shrink-0`}>
             <BikeFilters
               category={category} setCategory={setCategory}
@@ -55,17 +47,11 @@ export default function BikesPage() {
             />
           </div>
 
-          {/* Grid */}
           <div className="flex-1">
             <p className="text-sm text-muted-foreground mb-4">{filtered.length} bikes found</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
               {filtered.map((bike, i) => (
-                <motion.div
-                  key={bike.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05, duration: 0.4 }}
-                >
+                <motion.div key={bike.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
                   <BikeCard bike={bike} />
                 </motion.div>
               ))}

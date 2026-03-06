@@ -22,16 +22,15 @@ export function BikeFilters({
   priceRange, setPriceRange,
 }: BikeFiltersProps) {
   return (
-    <div className="glass rounded-xl p-6 space-y-6">
-      <h3 className="font-display text-2xl">FILTERS</h3>
+    <div className="bg-card rounded-2xl border border-border/50 p-6 space-y-6">
+      <h3 className="font-display text-lg">Filters</h3>
 
-      {/* City */}
       <div className="space-y-2">
-        <label className="text-xs uppercase tracking-wider text-muted-foreground">Location</label>
+        <label className="text-[11px] uppercase tracking-widest text-muted-foreground font-medium">City</label>
         <select
           value={cityFilter}
           onChange={(e) => setCityFilter(e.target.value)}
-          className="w-full bg-secondary rounded-lg px-3 py-2 text-sm text-foreground border-none outline-none focus:ring-1 focus:ring-primary"
+          className="w-full bg-secondary rounded-xl px-3 py-2.5 text-sm text-foreground border-none outline-none focus:ring-2 focus:ring-primary/50"
         >
           <option value="">All Cities</option>
           {cities.map((c) => (
@@ -40,9 +39,8 @@ export function BikeFilters({
         </select>
       </div>
 
-      {/* Category */}
       <div className="space-y-2">
-        <label className="text-xs uppercase tracking-wider text-muted-foreground">Category</label>
+        <label className="text-[11px] uppercase tracking-widest text-muted-foreground font-medium">Category</label>
         <div className="flex flex-wrap gap-2">
           {categories.map((cat) => (
             <button
@@ -60,9 +58,8 @@ export function BikeFilters({
         </div>
       </div>
 
-      {/* Transmission */}
       <div className="space-y-2">
-        <label className="text-xs uppercase tracking-wider text-muted-foreground">Transmission</label>
+        <label className="text-[11px] uppercase tracking-widest text-muted-foreground font-medium">Transmission</label>
         <div className="flex gap-2">
           {transmissions.map((t) => (
             <button
@@ -80,19 +77,11 @@ export function BikeFilters({
         </div>
       </div>
 
-      {/* Price Range */}
       <div className="space-y-3">
-        <label className="text-xs uppercase tracking-wider text-muted-foreground">
-          Price Range: ${priceRange[0]} - ${priceRange[1]}/day
+        <label className="text-[11px] uppercase tracking-widest text-muted-foreground font-medium">
+          Price: ₹{priceRange[0]} – ₹{priceRange[1]}/day
         </label>
-        <Slider
-          value={priceRange}
-          onValueChange={setPriceRange}
-          min={0}
-          max={400}
-          step={10}
-          className="w-full"
-        />
+        <Slider value={priceRange} onValueChange={setPriceRange} min={0} max={1500} step={50} className="w-full" />
       </div>
     </div>
   );

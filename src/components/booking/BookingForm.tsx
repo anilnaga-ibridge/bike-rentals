@@ -1,12 +1,12 @@
 import { useState, useMemo } from 'react';
-import { Bike, addOns } from '@/data/bikes';
+import { Bike, addOns, getPriceForDays } from '@/data/bikes';
 import { sampleCoupons } from '@/data/coupons';
 import { DateTimePicker } from './DateTimePicker';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
-import { differenceInHours } from 'date-fns';
+import { differenceInDays } from 'date-fns';
 import { Tag, Check, X } from 'lucide-react';
 
 interface BookingFormProps {
@@ -31,32 +31,13 @@ export function BookingForm({ bike }: BookingFormProps) {
   const pricing = useMemo(() => {
     if (!pickupDate || !returnDate) return null;
 
-    const pickup = new Date(pickupDate);
-    const [ph, pm] = pickupTime.split(':').map(Number);
-    pickup.setHours(ph, pm, 0, 0);
-
-    const ret = new Date(returnDate);
-    const [rh, rm] = returnTime.split(':').map(Number);
-    ret.setHours(rh, rm, 0, 0);
-
-    const totalHours = Math.max(1, differenceInHours(ret, pickup));
-    const totalDays = Math.ceil(totalHours / 24);
-    const remainingHours = totalHours % 24;
-
-    let weekendDays = 0;
-    for (let d = new Date(pickup); d <= ret; d.setDate(d.getDate() + 1)) {
-      const day = d.getDay();
-      if (day === 0 || day === 6) weekendDays++;
-    }
-    const weekdayDays = totalDays - weekendDays;
-
-    const baseDayRate = weekdayDays * bike.pricePerDay + weekendDays * bike.pricePerDay * bike.weekendMultiplier;
-    const hourlyExtra = remainingHours > 0 && totalDays === 0 ? remainingHours * bike.pricePerHour : 0;
-    const rentalCost = Math.round(baseDayRate + hourlyExtra);
+    const totalDays = Math.max(1, differenceInDays(returnDate, pickupDate));
+    const pricePerDay = getPriceForDays(bike, totalDays);
+    const rentalCost = totalDays * pricePerDay;
 
     const addOnCost = selectedAddOns.reduce((sum, id) => {
       const addon = addOns.find((a) => a.id === id);
-      return sum + (addon ? addon.pricePerDay * Math.max(1, totalDays) : 0);
+      return sum + (addon ? addon.pricePerDay * totalDays : 0);
     }, 0);
 
     const subtotal = rentalCost + addOnCost;
@@ -73,17 +54,16 @@ export function BookingForm({ bike }: BookingFormProps) {
     }
 
     return {
-      totalHours,
       totalDays,
+      pricePerDay,
       rentalCost,
       addOnCost,
       subtotal,
       discount,
       deposit: bike.deposit,
       total: subtotal - discount + bike.deposit,
-      weekendDays,
     };
-  }, [pickupDate, returnDate, pickupTime, returnTime, selectedAddOns, bike, appliedCoupon]);
+  }, [pickupDate, returnDate, selectedAddOns, bike, appliedCoupon]);
 
   const applyCoupon = () => {
     const coupon = sampleCoupons.find(c => c.code === couponCode.toUpperCase() && c.active);
@@ -92,11 +72,11 @@ export function BookingForm({ bike }: BookingFormProps) {
       return;
     }
     if (pricing && pricing.subtotal < coupon.minOrderAmount) {
-      toast.error(`Minimum order amount is $${coupon.minOrderAmount}`);
+      toast.error(`Minimum order amount is ₹${coupon.minOrderAmount}`);
       return;
     }
     setAppliedCoupon(coupon);
-    toast.success(`Coupon ${coupon.code} applied! ${coupon.type === 'percentage' ? `${coupon.value}% off` : `$${coupon.value} off`}`);
+    toast.success(`Coupon ${coupon.code} applied!`);
   };
 
   const removeCoupon = () => {
@@ -110,12 +90,12 @@ export function BookingForm({ bike }: BookingFormProps) {
       toast.error('Please select pickup and return dates');
       return;
     }
-    toast.success(`Booking confirmed! Total: $${pricing?.total}. Check your dashboard for details.`);
+    toast.success(`Booking confirmed! Total: ₹${pricing?.total}`);
   };
 
   return (
-    <div className="glass rounded-xl p-6 space-y-5">
-      <h3 className="font-display text-2xl">BOOK THIS BIKE</h3>
+    <div className="bg-card rounded-2xl border border-border/50 p-6 space-y-5">
+      <h3 className="font-display text-xl">Book This Bike</h3>
 
       <DateTimePicker
         label="Pickup Date & Time"
@@ -137,9 +117,9 @@ export function BookingForm({ bike }: BookingFormProps) {
 
       {/* Add-ons */}
       <div className="space-y-2">
-        <p className="text-xs uppercase tracking-wider text-muted-foreground">Add-ons</p>
+        <p className="text-[11px] uppercase tracking-widest text-muted-foreground font-medium">Add-ons</p>
         {addOns.map((addon) => (
-          <div key={addon.id} className="flex items-center justify-between py-1">
+          <div key={addon.id} className="flex items-center justify-between py-1.5">
             <div className="flex items-center gap-2">
               <Checkbox
                 checked={selectedAddOns.includes(addon.id)}
@@ -150,22 +130,19 @@ export function BookingForm({ bike }: BookingFormProps) {
                 {addon.icon} {addon.name}
               </label>
             </div>
-            <span className="text-xs text-muted-foreground">${addon.pricePerDay}/day</span>
+            <span className="text-[11px] text-muted-foreground">₹{addon.pricePerDay}/day</span>
           </div>
         ))}
       </div>
 
       {/* Coupon Code */}
       <div className="space-y-2">
-        <p className="text-xs uppercase tracking-wider text-muted-foreground">Coupon Code</p>
+        <p className="text-[11px] uppercase tracking-widest text-muted-foreground font-medium">Coupon Code</p>
         {appliedCoupon ? (
-          <div className="flex items-center justify-between bg-primary/10 border border-primary/20 rounded-lg px-4 py-2.5">
+          <div className="flex items-center justify-between bg-primary/10 border border-primary/20 rounded-xl px-4 py-2.5">
             <div className="flex items-center gap-2">
               <Check className="h-4 w-4 text-emerald-400" />
               <code className="font-mono font-bold text-sm text-primary">{appliedCoupon.code}</code>
-              <span className="text-xs text-muted-foreground">
-                ({appliedCoupon.type === 'percentage' ? `${appliedCoupon.value}%` : `$${appliedCoupon.value}`} off)
-              </span>
             </div>
             <button onClick={removeCoupon} className="text-muted-foreground hover:text-destructive transition-colors">
               <X className="h-4 w-4" />
@@ -189,46 +166,44 @@ export function BookingForm({ bike }: BookingFormProps) {
 
       {/* Price Breakdown */}
       {pricing && (
-        <div className="border-t border-border pt-4 space-y-2">
+        <div className="border-t border-border pt-4 space-y-2.5">
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Duration</span>
-            <span>{pricing.totalDays} day{pricing.totalDays !== 1 ? 's' : ''} ({pricing.totalHours}h)</span>
+            <span>{pricing.totalDays} day{pricing.totalDays !== 1 ? 's' : ''}</span>
           </div>
-          {pricing.weekendDays > 0 && (
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Weekend days ({bike.weekendMultiplier}x)</span>
-              <span className="text-primary">{pricing.weekendDays} day{pricing.weekendDays !== 1 ? 's' : ''}</span>
-            </div>
-          )}
+          <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">Rate per day</span>
+            <span className="text-primary font-semibold">₹{pricing.pricePerDay}</span>
+          </div>
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Rental Cost</span>
-            <span>${pricing.rentalCost}</span>
+            <span>₹{pricing.rentalCost}</span>
           </div>
           {pricing.addOnCost > 0 && (
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Add-ons</span>
-              <span>${pricing.addOnCost}</span>
+              <span>₹{pricing.addOnCost}</span>
             </div>
           )}
           {pricing.discount > 0 && (
             <div className="flex justify-between text-sm text-emerald-400">
-              <span>Coupon Discount</span>
-              <span>-${pricing.discount}</span>
+              <span>Discount</span>
+              <span>-₹{pricing.discount}</span>
             </div>
           )}
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Security Deposit</span>
-            <span>${pricing.deposit}</span>
+            <span>₹{pricing.deposit}</span>
           </div>
           <div className="border-t border-border pt-3 flex justify-between items-center">
             <span className="text-muted-foreground font-medium">Total</span>
-            <span className="font-display text-3xl text-primary">${pricing.total}</span>
+            <span className="font-display text-3xl text-primary">₹{pricing.total}</span>
           </div>
         </div>
       )}
 
       <Button
-        className="w-full text-base font-bold glow-strong"
+        className="w-full text-sm font-bold gold-shine text-primary-foreground border-0"
         size="lg"
         disabled={!bike.available || !pickupDate || !returnDate}
         onClick={handleBooking}

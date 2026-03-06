@@ -1,67 +1,55 @@
 import { motion } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
-import { Link } from 'react-router-dom';
 
 const customers = [
-  { id: 1, name: 'Alex Johnson', email: 'alex@email.com', bookings: 12, spent: 4200, verified: true },
-  { id: 2, name: 'Sarah Williams', email: 'sarah@email.com', bookings: 8, spent: 2800, verified: true },
-  { id: 3, name: 'Mike Chen', email: 'mike@email.com', bookings: 3, spent: 950, verified: false },
-  { id: 4, name: 'Emma Davis', email: 'emma@email.com', bookings: 15, spent: 5600, verified: true },
-  { id: 5, name: 'Ryan Garcia', email: 'ryan@email.com', bookings: 1, spent: 280, verified: false },
+  { id: 1, name: 'Rahul Sharma', email: 'rahul@email.com', phone: '+91 9876543210', bookings: 12, spent: 42000, verified: true },
+  { id: 2, name: 'Priya Patel', email: 'priya@email.com', phone: '+91 9123456789', bookings: 8, spent: 28000, verified: true },
+  { id: 3, name: 'Amit Kumar', email: 'amit@email.com', phone: '+91 9988776655', bookings: 3, spent: 9500, verified: false },
+  { id: 4, name: 'Sneha Reddy', email: 'sneha@email.com', phone: '+91 9876512345', bookings: 15, spent: 56000, verified: true },
+  { id: 5, name: 'Vikram Singh', email: 'vikram@email.com', phone: '+91 9012345678', bookings: 1, spent: 2800, verified: false },
 ];
 
 export default function AdminCustomersPage() {
   return (
-    <div className="pt-24 pb-12">
-      <div className="container mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <Link to="/admin" className="text-muted-foreground text-sm hover:text-foreground transition-colors">← Admin</Link>
-          <h1 className="font-display text-5xl md:text-6xl">CUSTOMERS</h1>
-        </motion.div>
+    <div>
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <h1 className="font-display text-3xl">Customers</h1>
+        <p className="text-sm text-muted-foreground mt-1">Manage and track all registered customers</p>
+      </motion.div>
 
-        <div className="glass rounded-xl overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-border">
-                  <th className="text-left text-xs uppercase tracking-wider text-muted-foreground p-4">Customer</th>
-                  <th className="text-left text-xs uppercase tracking-wider text-muted-foreground p-4">Bookings</th>
-                  <th className="text-left text-xs uppercase tracking-wider text-muted-foreground p-4">Total Spent</th>
-                  <th className="text-left text-xs uppercase tracking-wider text-muted-foreground p-4">License</th>
-                </tr>
-              </thead>
-              <tbody>
-                {customers.map((c, i) => (
-                  <motion.tr
-                    key={c.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: i * 0.04 }}
-                    className="border-b border-border/50 surface-hover"
-                  >
-                    <td className="p-4">
-                      <p className="text-sm font-medium">{c.name}</p>
-                      <p className="text-xs text-muted-foreground">{c.email}</p>
-                    </td>
-                    <td className="p-4 text-sm">{c.bookings}</td>
-                    <td className="p-4 text-sm font-semibold">${c.spent.toLocaleString()}</td>
-                    <td className="p-4">
-                      <Badge variant="outline" className={c.verified
-                        ? 'border-emerald-500/30 text-emerald-400'
-                        : 'border-amber-500/30 text-amber-400'
-                      }>
-                        {c.verified ? 'Verified' : 'Pending'}
-                      </Badge>
-                    </td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+      <div className="bg-card rounded-2xl border border-border/50 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-border">
+                <th className="text-left text-[11px] uppercase tracking-wider text-muted-foreground p-4 font-medium">Customer</th>
+                <th className="text-left text-[11px] uppercase tracking-wider text-muted-foreground p-4 font-medium">Phone</th>
+                <th className="text-left text-[11px] uppercase tracking-wider text-muted-foreground p-4 font-medium">Bookings</th>
+                <th className="text-left text-[11px] uppercase tracking-wider text-muted-foreground p-4 font-medium">Total Spent</th>
+                <th className="text-left text-[11px] uppercase tracking-wider text-muted-foreground p-4 font-medium">Verified</th>
+              </tr>
+            </thead>
+            <tbody>
+              {customers.map((c, i) => (
+                <motion.tr key={c.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.04 }}
+                  className="border-b border-border/30 surface-hover"
+                >
+                  <td className="p-4">
+                    <p className="text-sm font-medium">{c.name}</p>
+                    <p className="text-[11px] text-muted-foreground">{c.email}</p>
+                  </td>
+                  <td className="p-4 text-sm text-muted-foreground">{c.phone}</td>
+                  <td className="p-4 text-sm">{c.bookings}</td>
+                  <td className="p-4 text-sm font-semibold">₹{c.spent.toLocaleString()}</td>
+                  <td className="p-4">
+                    <Badge variant="outline" className={c.verified ? 'border-emerald-500/30 text-emerald-400' : 'border-amber-500/30 text-amber-400'}>
+                      {c.verified ? 'Verified' : 'Pending'}
+                    </Badge>
+                  </td>
+                </motion.tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
