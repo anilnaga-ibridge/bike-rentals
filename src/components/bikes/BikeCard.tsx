@@ -1,16 +1,21 @@
-import { Bike } from '@/data/bikes';
+import { Bike, getPriceForDays } from '@/data/bikes';
 import { Link } from 'react-router-dom';
-import { Star, Fuel, Gauge, Settings } from 'lucide-react';
+import { Star, Fuel, Gauge, Settings, MapPin } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { cities } from '@/data/bikes';
 
 interface BikeCardProps {
   bike: Bike;
 }
 
 export function BikeCard({ bike }: BikeCardProps) {
+  const cityName = cities.find(c => c.id === bike.city)?.name || bike.city;
+  const startPrice = bike.pricingTiers[bike.pricingTiers.length - 1].pricePerDay;
+
   return (
     <Link to={`/bikes/${bike.id}`} className="block group">
-      <div className="glass rounded-xl overflow-hidden glass-hover">
+      <div className="bg-card rounded-2xl overflow-hidden border border-border/50 card-lift">
         {/* Image */}
         <div className="relative aspect-[4/3] overflow-hidden">
           <img
@@ -19,35 +24,41 @@ export function BikeCard({ bike }: BikeCardProps) {
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
 
           {/* Status badge */}
           <Badge
-            className={`absolute top-3 right-3 text-xs font-semibold ${
+            className={`absolute top-3 left-3 text-[10px] font-bold uppercase ${
               bike.available
-                ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
-                : 'bg-destructive/20 text-destructive border-destructive/30'
+                ? 'bg-emerald-500/90 text-white border-0'
+                : 'bg-destructive/90 text-white border-0'
             }`}
-            variant="outline"
           >
             {bike.available ? 'Available' : 'Booked'}
           </Badge>
 
+          {/* Location */}
+          <div className="absolute top-3 right-3">
+            <Badge variant="secondary" className="text-[10px] gap-1 bg-background/80 backdrop-blur-sm border-0">
+              <MapPin className="h-2.5 w-2.5" /> {cityName}
+            </Badge>
+          </div>
+
           {/* Price */}
           <div className="absolute bottom-3 left-3">
-            <span className="font-display text-2xl text-primary">${bike.pricePerDay}</span>
-            <span className="text-xs text-muted-foreground">/day</span>
+            <span className="font-display text-xl text-primary">₹{startPrice}</span>
+            <span className="text-[10px] text-muted-foreground">/day</span>
           </div>
         </div>
 
         {/* Info */}
         <div className="p-4 space-y-3">
           <div>
-            <p className="text-xs text-muted-foreground uppercase tracking-wider">{bike.brand}</p>
-            <h3 className="font-body text-lg font-semibold">{bike.name}</h3>
+            <p className="text-[10px] text-primary uppercase tracking-widest font-semibold">{bike.brand}</p>
+            <h3 className="font-display text-lg">{bike.name}</h3>
           </div>
 
-          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+          <div className="flex items-center gap-3 text-[11px] text-muted-foreground">
             <span className="flex items-center gap-1">
               <Gauge className="h-3 w-3 text-primary" /> {bike.engineCC}cc
             </span>
@@ -59,10 +70,15 @@ export function BikeCard({ bike }: BikeCardProps) {
             </span>
           </div>
 
-          <div className="flex items-center gap-1">
-            <Star className="h-3.5 w-3.5 fill-primary text-primary" />
-            <span className="text-sm font-medium">{bike.rating}</span>
-            <span className="text-xs text-muted-foreground">({bike.reviewCount})</span>
+          <div className="flex items-center justify-between pt-2 border-t border-border/50">
+            <div className="flex items-center gap-1">
+              <Star className="h-3.5 w-3.5 fill-primary text-primary" />
+              <span className="text-sm font-semibold">{bike.rating}</span>
+              <span className="text-[10px] text-muted-foreground">({bike.reviewCount})</span>
+            </div>
+            <span className="text-[10px] text-primary font-semibold uppercase tracking-wider group-hover:underline">
+              Book Now →
+            </span>
           </div>
         </div>
       </div>

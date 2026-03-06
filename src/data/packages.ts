@@ -2,7 +2,7 @@ export interface TripPackage {
   id: string;
   name: string;
   description: string;
-  duration: number; // days
+  duration: number;
   bikeId: string;
   bikeName: string;
   route: string;
@@ -19,35 +19,35 @@ export interface TripPackage {
 
 export const tripPackages: TripPackage[] = [
   {
-    id: 'pkg-1', name: 'Pacific Coast Highway', description: 'Ride the iconic PCH from LA to San Francisco on a premium cruiser. 3 days of breathtaking ocean views, coastal towns, and legendary roads.',
-    duration: 3, bikeId: '3', bikeName: 'Harley-Davidson Fat Boy 114', route: 'Los Angeles → Santa Barbara → Big Sur → San Francisco',
-    highlights: ['Big Sur coastline', 'Santa Barbara wine country', 'Golden Gate Bridge finish'],
+    id: 'pkg-1', name: 'Goa Beach Ride', description: 'Ride along the stunning Konkan coast from Bangalore to Goa. 3 days of beaches, forts, and coastal roads.',
+    duration: 3, bikeId: '3', bikeName: 'Royal Enfield Classic 350', route: 'Bangalore → Gokarna → Palolem → North Goa',
+    highlights: ['Konkan coast', 'Gokarna beaches', 'Old Goa churches'],
     includes: ['Bike rental', 'Full insurance', 'Premium helmet', 'Route GPS', 'Hotel recommendations'],
-    price: 899, originalPrice: 1110, image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&q=80',
-    difficulty: 'Easy', rating: 4.9, reviewCount: 87, featured: true,
+    price: 8999, originalPrice: 11100, image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&q=80',
+    difficulty: 'Easy', rating: 4.9, reviewCount: 187, featured: true,
   },
   {
-    id: 'pkg-2', name: 'Mountain Thunder', description: 'Conquer the Rockies on an adventure bike. 5 days of alpine passes, national parks, and high-altitude thrills.',
-    duration: 5, bikeId: '4', bikeName: 'Honda Africa Twin', route: 'Denver → Rocky Mountain NP → Aspen → Telluride → Denver',
-    highlights: ['Trail Ridge Road', 'Independence Pass', 'Million Dollar Highway'],
-    includes: ['Bike rental', 'Full insurance', 'Riding gear', 'Route GPS', 'Emergency kit'],
-    price: 1499, originalPrice: 1800, image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80',
-    difficulty: 'Challenging', rating: 4.8, reviewCount: 54, featured: true,
+    id: 'pkg-2', name: 'Ladakh Adventure', description: 'Conquer the mighty Himalayas on a Royal Enfield. 7 days of high-altitude passes, monasteries, and pristine lakes.',
+    duration: 7, bikeId: '4', bikeName: 'Royal Enfield Himalayan 450', route: 'Manali → Rohtang → Leh → Pangong → Nubra → Leh',
+    highlights: ['Khardung La Pass', 'Pangong Lake', 'Magnetic Hill', 'Nubra Valley'],
+    includes: ['Bike rental', 'Full insurance', 'Riding gear', 'Route GPS', 'Oxygen can', 'Mechanic support'],
+    price: 24999, originalPrice: 32000, image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80',
+    difficulty: 'Challenging', rating: 4.8, reviewCount: 94, featured: true,
   },
   {
-    id: 'pkg-3', name: 'Miami Vice Cruise', description: 'Experience Miami\'s vibrant culture on a Vespa. 2 days exploring South Beach, Art Deco, and the Keys.',
-    duration: 2, bikeId: '6', bikeName: 'Vespa GTS 300', route: 'Miami Beach → Key Biscayne → Coconut Grove → Wynwood',
-    highlights: ['South Beach sunset', 'Art Deco District', 'Key Biscayne bridge'],
-    includes: ['Bike rental', 'Basic insurance', 'Helmet', 'City guide map'],
-    price: 249, originalPrice: 310, image: 'https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?w=800&q=80',
-    difficulty: 'Easy', rating: 4.7, reviewCount: 132, featured: true,
+    id: 'pkg-3', name: 'Pondicherry Weekend', description: 'Experience French colonial charm on a scooter. 2 days exploring cafes, beaches, and Auroville.',
+    duration: 2, bikeId: '1', bikeName: 'Honda Activa 6G', route: 'Chennai → Mahabalipuram → Pondicherry',
+    highlights: ['French Quarter', 'Auroville', 'Rock Beach sunset'],
+    includes: ['Bike rental', 'Basic insurance', 'Helmet', 'City guide'],
+    price: 2499, originalPrice: 3100, image: 'https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?w=800&q=80',
+    difficulty: 'Easy', rating: 4.7, reviewCount: 232, featured: true,
   },
   {
-    id: 'pkg-4', name: 'Speed Demon NYC', description: 'A weekend superbike experience in New York. Track day included with highway cruising through scenic upstate.',
-    duration: 2, bikeId: '1', bikeName: 'Ducati Panigale V4', route: 'NYC → Bear Mountain → Storm King → NYC',
-    highlights: ['Track day experience', 'Bear Mountain views', 'Hudson Valley ride'],
-    includes: ['Bike rental', 'Track access', 'Full insurance', 'Racing suit rental', 'Pro instructor'],
-    price: 799, originalPrice: 960, image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80',
-    difficulty: 'Moderate', rating: 4.9, reviewCount: 41, featured: false,
+    id: 'pkg-4', name: 'Rajasthan Royal Tour', description: 'A royal ride through the desert state. 5 days of palaces, forts, and golden sand dunes.',
+    duration: 5, bikeId: '3', bikeName: 'Royal Enfield Classic 350', route: 'Jaipur → Jodhpur → Jaisalmer → Udaipur',
+    highlights: ['Thar Desert', 'Mehrangarh Fort', 'Jaisalmer Sand Dunes', 'Lake Pichola'],
+    includes: ['Bike rental', 'Full insurance', 'Premium helmet', 'Desert camping', 'Mechanic on call'],
+    price: 14999, originalPrice: 18000, image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80',
+    difficulty: 'Moderate', rating: 4.9, reviewCount: 71, featured: false,
   },
 ];

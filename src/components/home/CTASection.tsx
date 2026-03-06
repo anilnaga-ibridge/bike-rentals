@@ -1,35 +1,41 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export function CTASection() {
   return (
-    <section className="py-24">
+    <section className="py-20">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative overflow-hidden rounded-3xl p-12 md:p-20 text-center"
+          className="relative overflow-hidden rounded-3xl p-10 sm:p-16 text-center"
         >
-          {/* Background glow */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-accent/10" />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary/10 blur-[120px] rounded-full" />
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-card to-accent/10" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-80 h-80 bg-primary/10 blur-[120px] rounded-full" />
 
           <div className="relative z-10">
-            <h2 className="font-display text-5xl md:text-7xl mb-4">
-              READY TO <span className="text-gradient">RIDE</span>?
+            <h2 className="font-display text-3xl sm:text-5xl mb-3">
+              Ready to <span className="text-gradient">Ride</span>?
             </h2>
-            <p className="text-muted-foreground text-lg max-w-md mx-auto mb-8">
-              Join thousands of riders who trust RideX for their premium motorcycle experience.
+            <p className="text-muted-foreground text-sm sm:text-base max-w-md mx-auto mb-8">
+              Join thousands of riders who trust RideX for affordable, convenient & premium bike rentals.
             </p>
-            <Link to="/bikes">
-              <Button size="lg" className="text-lg font-bold px-10 glow-strong">
-                Explore Fleet <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link to="/bikes">
+                <Button size="lg" className="font-bold gold-shine text-primary-foreground border-0 px-8">
+                  Explore Bikes <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+              <a href="tel:+919876543210">
+                <Button size="lg" variant="outline" className="font-bold px-8">
+                  <Phone className="mr-2 h-4 w-4" /> Call Us
+                </Button>
+              </a>
+            </div>
           </div>
         </motion.div>
       </div>
