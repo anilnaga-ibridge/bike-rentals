@@ -28,7 +28,7 @@ import AdminPackagesPage from "./pages/admin/AdminPackagesPage";
 const queryClient = new QueryClient();
 
 function AdminGuard({ children }: { children: React.ReactNode }) {
-  const isAdmin = localStorage.getItem('ridex_admin') === 'true';
+  const isAdmin = localStorage.getItem('sriganesh_admin') === 'true';
   if (!isAdmin) return <Navigate to="/admin/login" replace />;
   return <>{children}</>;
 }
