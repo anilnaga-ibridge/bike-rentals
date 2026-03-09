@@ -15,6 +15,7 @@ import TripPackagesPage from "./pages/TripPackagesPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import OffersPage from "./pages/OffersPage";
+import ListVehiclePage from "./pages/ListVehiclePage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminBikesPage from "./pages/admin/AdminBikesPage";
