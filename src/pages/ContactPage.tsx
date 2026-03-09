@@ -104,23 +104,67 @@ export default function ContactPage() {
           </motion.form>
         </div>
 
-        {/* Map */}
+        {/* Our Branches */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-12 rounded-2xl overflow-hidden border border-border/50"
+          className="mt-16"
         >
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248849.84916296526!2d77.46612559677948!3d12.953945614498955!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfc3e8517e4fe0!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1709000000000!5m2!1sen!2sin"
-            width="100%"
-            height="350"
-            style={{ border: 0, filter: 'grayscale(1) invert(0.92) contrast(0.9)' }}
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            title="RideX Location"
-          />
+          <h2 className="font-display text-2xl text-center mb-8">Our Branches</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                name: 'Branch 1',
+                mapUrl: 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15551.941494285498!2d78.4867813!3d17.4506021!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb91f5f8b3b3b3%3A0x1234567890abcdef!2sHyderabad!5e0!3m2!1sen!2sin',
+                link: 'https://maps.app.goo.gl/JbfiTCNVrpRQrvaV7',
+              },
+              {
+                name: 'Branch 2',
+                mapUrl: 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15552.5!2d78.49!3d17.44!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb91f5f8b3b3b4%3A0x1234567890abcdf0!2sHyderabad!5e0!3m2!1sen!2sin',
+                link: 'https://maps.app.goo.gl/h8FasxtNgLKvoCEA6',
+              },
+              {
+                name: 'Branch 3',
+                mapUrl: 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15553.0!2d78.48!3d17.45!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb91f5f8b3b3b5%3A0x1234567890abcdf1!2sHyderabad!5e0!3m2!1sen!2sin',
+                link: 'https://maps.app.goo.gl/67rjbrQDXeaKWCe77',
+              },
+            ].map((branch, i) => (
+              <motion.div
+                key={branch.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-card rounded-2xl border border-border/50 overflow-hidden hover:border-primary/30 transition-colors"
+              >
+                <iframe
+                  src={branch.mapUrl}
+                  width="100%"
+                  height="220"
+                  style={{ border: 0, filter: 'grayscale(1) invert(0.92) contrast(0.9)' }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title={branch.name}
+                />
+                <div className="p-4 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4 text-primary" />
+                    <span className="text-sm font-medium">{branch.name}</span>
+                  </div>
+                  <a
+                    href={branch.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-primary hover:underline"
+                  >
+                    Open in Maps →
+                  </a>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </div>
