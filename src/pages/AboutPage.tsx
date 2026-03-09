@@ -20,10 +20,10 @@ export default function AboutPage() {
         >
           <span className="text-primary text-xs font-semibold tracking-[0.2em] uppercase">About Us</span>
           <h1 className="font-display text-4xl sm:text-5xl md:text-6xl mt-2">
-            We're <span className="text-gradient">RideX</span>
+            We're <span className="text-gradient">Sri Ganesh</span>
           </h1>
           <p className="text-muted-foreground mt-4 text-base leading-relaxed">
-            Founded in 2024, RideX started with a simple idea: make two-wheeler rentals as easy as booking a cab. 
+            Founded in 2024, Sri Ganesh Bike Rentals started with a simple idea: make two-wheeler rentals as easy as booking a cab. 
             Today, we operate across 6 major Indian cities with 500+ bikes, serving 10,000+ happy riders every month.
           </p>
         </motion.div>
