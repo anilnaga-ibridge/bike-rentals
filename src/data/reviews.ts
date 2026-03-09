@@ -53,7 +53,7 @@ export const testimonials: Testimonial[] = [
   {
     id: 't1', name: 'Rahul Sharma', role: 'Daily Commuter',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80',
-    rating: 5, Sri Ganesh Bike RentalsSri Ganesh Bike RentalsRideX has been a lifesaver for my daily commute. The monthly rental package saves me so much compared to owning a bike. Highly recommended!',
+    rating: 5, comment: 'Sri Ganesh Bike Rentals has been a lifesaver for my daily commute. The monthly rental package saves me so much compared to owning a bike. Highly recommended!',
     bikeRented: 'Honda Activa 6G', city: 'Bangalore',
   },
   {
