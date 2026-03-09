@@ -34,7 +34,7 @@ export const sampleReviews: Review[] = [
   {
     id: 'r3', bikeId: '3', customerName: 'Vikram Singh',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80',
-    rating: 5, comment: 'The Classic 350 is a beast! Rode from Delhi to Jaipur - an amazing experience. RideX made it so easy.', date: '2026-02-08',
+    rating: 5, comment: 'The Classic 350 is a beast! Rode from Delhi to Jaipur - an amazing experience. Sri Ganesh made it so easy.', date: '2026-02-08',
     image: 'https://images.unsplash.com/photo-1558980394-4c7c9299fe96?w=600&q=80',
   },
   {
