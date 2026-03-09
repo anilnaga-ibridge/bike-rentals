@@ -53,25 +53,25 @@ export const testimonials: Testimonial[] = [
   {
     id: 't1', name: 'Rahul Sharma', role: 'Daily Commuter',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80',
-    rating: 5, comment: 'Sri Ganesh Bike Rentals has been a lifesaver for my daily commute. The monthly rental package saves me so much compared to owning a bike. Highly recommended!',
-    bikeRented: 'Honda Activa 6G', city: 'Bangalore',
+    rating: 5, comment: 'Sri Ganesh Bike Rentals has been a lifesaver for my daily commute. The monthly rental package saves me so much compared to owning a vehicle. Highly recommended!',
+    bikeRented: 'Premium Scooty', city: 'Bangalore',
   },
   {
     id: 't2', name: 'Priya Patel', role: 'Travel Blogger',
     avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&q=80',
-    rating: 5, comment: 'As a travel blogger, I rent bikes Sri Ganeshery city I visit. RideX has the best fleet, transparent pricing, and instant booking. My followers love the Ladakh ride content!',
-    bikeRented: 'RE Himalayan 450', city: 'Delhi',
+    rating: 5, comment: 'As a travel blogger, I rent bikes in every city I visit. Sri Ganesh has the best fleet, transparent pricing, and instant booking. My followers love the ride content!',
+    bikeRented: 'Adventure Bike', city: 'Delhi',
   },
   {
     id: 't3', name: 'Vikram Singh', role: 'Weekend Rider',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80',
-    rating: 5, comment: 'I rent a Classic 350 every weekend for long rides. The pricing tiers are great — the more days I rent, the cheaper it gets. Customer support is also top notch.',
-    bikeRented: 'RE Classic 350', city: 'Pune',
+    rating: 5, comment: 'I rent a premium cruiser every weekend for long rides. The pricing tiers are great — the more days I rent, the cheaper it gets. Customer support is also top notch.',
+    bikeRented: 'Premium Cruiser', city: 'Pune',
   },
   {
     id: 't4', name: 'Sneha Reddy', role: 'College Student',
     avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80',
-    rating: 4, comment: 'Perfect for students who need a bike temporarily. The deposit is reasonable and the monthly plan is way cheaper than buying a bike. Love the flexible return option!',
-    bikeRented: 'TVS Jupiter 125', city: 'Hyderabad',
+    rating: 4, comment: 'Perfect for students who need a ride temporarily. The deposit is reasonable and the monthly plan is way cheaper than buying one. Love the flexible return option!',
+    bikeRented: 'City Scooty', city: 'Hyderabad',
   },
 ];

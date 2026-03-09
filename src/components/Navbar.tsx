@@ -1,7 +1,8 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, User } from 'lucide-react';
+import { Menu, X, User, ChevronRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
 const navItems = [
@@ -21,7 +22,7 @@ export function Navbar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -30,47 +31,70 @@ export function Navbar() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? 'glass shadow-lg shadow-background/50'
-          : 'bg-transparent'
-      }`}
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-3",
+        scrolled ? "glass shadow-lg border-b border-primary/5" : "bg-transparent"
+      )}
     >
-      <div className="container mx-auto flex items-center justify-between px-6 py-2">
-        <Link to="/" className="flex items-center gap-2.5">
-          <img src="/images/logo.png" alt="Sri Ganesh Bike Rentals" className="h-12 w-auto" />
+      <div className="container mx-auto flex items-center justify-between px-6">
+        <Link to="/" className="flex items-center gap-3 group">
+          <img src="/images/logo.png" alt="Sri Ganesh Bike Rentals" className="h-20 w-auto drop-shadow-sm group-hover:scale-105 transition-transform duration-500" />
+          <div className="hidden sm:block text-left">
+            <p className={cn(
+              "font-display font-black leading-none text-2xl uppercase tracking-tight transition-colors duration-300",
+              scrolled ? "text-primary" : "text-white"
+            )}>
+              Sri Ganesh
+            </p>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary">
+              Bike Rentals
+            </p>
+          </div>
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden lg:flex items-center gap-1">
+        <div className={cn(
+          "hidden lg:flex items-center gap-2 p-1 rounded-2xl border transition-all duration-500",
+          scrolled ? "glass border-primary/5 bg-white/20" : "bg-white/5 border-white/10 backdrop-blur-sm"
+        )}>
           {navItems.map((item) => (
             <Link
               key={item.path}
               to={item.path}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+              className={cn(
+                "px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300",
                 location.pathname === item.path
-                  ? 'text-primary bg-primary/10'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
-              }`}
+                  ? (scrolled ? "bg-primary text-white shadow-md" : "bg-white text-primary shadow-lg")
+                  : (scrolled ? "text-primary/70 hover:text-primary hover:bg-primary/5" : "text-white/70 hover:text-white hover:bg-white/10")
+              )}
             >
               {item.label}
             </Link>
           ))}
         </div>
 
-        <div className="hidden lg:flex items-center gap-3">
-          <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground" onClick={() => navigate('/profile')}>
-            <User className="h-4 w-4 mr-2" /> Profile
-          </Button>
-          <Button size="sm" className="font-semibold gold-shine text-primary-foreground border-0" onClick={() => navigate('/bikes')}>
+        <div className="hidden lg:flex items-center gap-4">
+          <Button
+            size="lg"
+            className={cn(
+              "h-12 px-8 rounded-xl font-black text-xs uppercase tracking-widest transition-all border-0 shadow-xl",
+              scrolled ? "bg-primary text-white shadow-primary/20" : "bg-secondary text-white shadow-secondary/20"
+            )}
+            onClick={() => navigate('/bikes')}
+          >
             Book Now
           </Button>
         </div>
 
         {/* Mobile toggle */}
-        <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden text-foreground p-2">
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className={cn(
+            "lg:hidden p-3 rounded-2xl transition-all",
+            scrolled ? "bg-primary/5 text-primary" : "bg-white/10 text-white"
+          )}
+        >
+          {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
 
@@ -78,30 +102,33 @@ export function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden glass border-t border-border overflow-hidden"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="lg:hidden absolute top-full left-4 right-4 mt-2 bg-white/95 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl border border-primary/5 overflow-hidden p-6"
           >
-            <div className="px-6 py-4 space-y-1">
+            <div className="space-y-1">
               {navItems.map((item) => (
                 <Link
                   key={item.path}
                   to={item.path}
                   onClick={() => setMobileOpen(false)}
-                  className={`block px-4 py-3 rounded-lg text-sm font-medium ${
-                    location.pathname === item.path ? 'text-primary bg-primary/10' : 'text-muted-foreground'
-                  }`}
+                  className={cn(
+                    "flex items-center justify-between p-4 rounded-2xl text-sm font-black uppercase tracking-widest transition-colors",
+                    location.pathname === item.path ? "text-primary bg-primary/5" : "text-muted-foreground hover:bg-primary/5"
+                  )}
                 >
                   {item.label}
+                  <ChevronRight className="h-4 w-4 opacity-20" />
                 </Link>
               ))}
-              <div className="pt-3 flex gap-2">
-                <Button variant="outline" size="sm" className="flex-1" onClick={() => { setMobileOpen(false); navigate('/profile'); }}>
-                  Profile
-                </Button>
-                <Button size="sm" className="flex-1 gold-shine text-primary-foreground border-0" onClick={() => { setMobileOpen(false); navigate('/bikes'); }}>
-                  Book Now
+              <div className="pt-6 grid grid-cols-1 gap-3">
+                <Button
+                  size="lg"
+                  className="h-14 rounded-2xl font-black text-xs uppercase tracking-widest gold-shine bg-secondary text-white border-0 shadow-xl shadow-secondary/20"
+                  onClick={() => { setMobileOpen(false); navigate('/bikes'); }}
+                >
+                  Book Your Ride Now
                 </Button>
               </div>
             </div>

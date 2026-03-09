@@ -33,4 +33,19 @@ export const sampleCoupons: Coupon[] = [
     minOrderAmount: 500, maxDiscount: 750, usageLimit: 1000, usedCount: 0,
     validFrom: '2026-06-01', validTo: '2026-08-31', active: false,
   },
+  {
+    id: 'c5', code: 'RIDE500', type: 'fixed', value: 500,
+    minOrderAmount: 2000, maxDiscount: 500, usageLimit: 300, usedCount: 12,
+    validFrom: '2026-03-01', validTo: '2026-12-31', active: true,
+  },
+  {
+    id: 'c6', code: 'NEWUSER50', type: 'percentage', value: 50,
+    minOrderAmount: 1000, maxDiscount: 1000, usageLimit: 1000, usedCount: 450,
+    validFrom: '2026-01-01', validTo: '2026-12-31', active: true,
+  },
+  {
+    id: 'c7', code: 'LONGTRIP', type: 'percentage', value: 25,
+    minOrderAmount: 5000, maxDiscount: 2000, usageLimit: 500, usedCount: 89,
+    validFrom: '2026-01-01', validTo: '2026-12-31', active: true,
+  },
 ];

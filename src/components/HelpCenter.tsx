@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, Phone, Mail, X, HelpCircle } from 'lucide-react';
+import { MessageCircle, Phone, Mail, X, HelpCircle, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 
 export function HelpCenter() {
@@ -8,71 +8,82 @@ export function HelpCenter() {
   const contacts = [
     {
       icon: MessageCircle,
-      label: 'WhatsApp',
-      desc: 'Chat with us',
-      color: 'bg-emerald-500',
-      href: 'https://wa.me/919876543210?text=Hi%20RideX%20Team!%20I%20need%20help%20with%20my%20booking.',
+      label: 'WhatsApp Support',
+      desc: 'Instant Response',
+      color: 'bg-[#25D366]',
+      href: 'https://wa.me/918106885488?text=Hi%20Sri%20Ganesh%20Bike%20Rentals!%20I%20need%20help%20with%20my%20booking.',
     },
     {
       icon: Phone,
-      label: 'Call Us',
-      desc: '+91 9876543210',
-      color: 'bg-blue-500',
-      href: 'tel:+919876543210',
+      label: 'Direct Call',
+      desc: '+91 91004 38272',
+      color: 'bg-primary',
+      href: 'tel:+919100438272',
     },
     {
       icon: Mail,
-      label: 'Email',
-      desc: 'support@ridex.com',
-      color: 'bg-primary',
-      href: 'mailto:support@ridex.com',
+      label: 'Email Support',
+      desc: 'support@sriganesh.com',
+      color: 'bg-accent',
+      href: 'mailto:support@sriganeshbikerentals.com',
     },
   ];
 
   return (
-    <div className="fixed left-6 top-1/2 -translate-y-1/2 z-40 flex flex-col items-start gap-3">
+    <div className="fixed right-6 bottom-24 z-50 flex flex-col items-end gap-4">
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, x: -20, scale: 0.9 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: -20, scale: 0.9 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="glass rounded-2xl p-4 space-y-3 mb-2"
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            className="bg-white rounded-[2rem] p-6 shadow-[0_32px_64px_-16px_rgba(11,61,145,0.2)] border border-primary/5 w-72 overflow-hidden"
           >
-            <p className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Need Help?</p>
-            {contacts.map((c) => (
-              <a
-                key={c.label}
-                href={c.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 p-2 rounded-lg hover:bg-secondary/60 transition-colors group"
-              >
-                <div className={`${c.color} rounded-full p-2 group-hover:scale-110 transition-transform`}>
-                  <c.icon className="h-4 w-4 text-white" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium">{c.label}</p>
-                  <p className="text-xs text-muted-foreground">{c.desc}</p>
-                </div>
-              </a>
-            ))}
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="font-display font-black text-primary text-xl">Help Center</h3>
+                <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest mt-0.5">We're here for you 24/7</p>
+              </div>
+              <button onClick={() => setOpen(false)} className="p-2 hover:bg-primary/5 rounded-full transition-colors">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="space-y-3">
+              {contacts.map((c) => (
+                <a
+                  key={c.label}
+                  href={c.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 p-3 rounded-2xl hover:bg-primary/5 transition-all group relative border border-transparent hover:border-primary/5"
+                >
+                  <div className={`${c.color} rounded-xl p-3 text-white shadow-lg group-hover:scale-110 transition-transform`}>
+                    <c.icon className="h-5 w-5" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-bold text-primary">{c.label}</p>
+                    <p className="text-[10px] text-muted-foreground font-medium">{c.desc}</p>
+                  </div>
+                  <ChevronRight className="h-4 w-4 text-primary/20 group-hover:text-primary/100 group-hover:translate-x-1 transition-all" />
+                </a>
+              ))}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       <motion.button
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setOpen(!open)}
-        className={`rounded-full p-3.5 shadow-lg transition-colors duration-300 ${
-          open
-            ? 'bg-secondary text-foreground'
-            : 'bg-primary text-primary-foreground glow-strong'
-        }`}
+        className={`w-16 h-16 rounded-full shadow-2xl flex items-center justify-center transition-all duration-500 relative ${open
+          ? 'bg-primary text-white'
+          : 'bg-primary text-white gold-shine'
+          }`}
       >
-        {open ? <X className="h-5 w-5" /> : <HelpCircle className="h-5 w-5" />}
+        <div className="absolute inset-0 rounded-full animate-ping bg-primary opacity-20" />
+        {open ? <X className="h-7 w-7" /> : <HelpCircle className="h-7 w-7" />}
       </motion.button>
     </div>
   );

@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { toast } from 'sonner';
 
-const ADMIN_PHONE = '9876543210';
+const ADMIN_PHONE = '9100438272';
 const ADMIN_OTP = '1234';
 
 export default function AdminLoginPage() {

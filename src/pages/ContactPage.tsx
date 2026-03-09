@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { BRAND } from '@/constants/brand';
 
 export default function ContactPage() {
   const [name, setName] = useState('');
@@ -23,10 +24,11 @@ export default function ContactPage() {
   };
 
   const contacts = [
-    { icon: Phone, label: 'Phone', value: '+91 9876543210', href: 'tel:+919876543210' },
-    { icon: Mail, label: 'Email', value: 'support@ridex.com', href: 'mailto:support@ridex.com' },
-    { icon: MessageCircle, label: 'WhatsApp', value: 'Chat with us', href: 'https://wa.me/919876543210' },
-    { icon: MapPin, label: 'Office', value: 'Bangalore, India', href: '#' },
+    { icon: Phone, label: 'Phone', value: BRAND.whatsappDisplay, href: `tel:${BRAND.whatsapp}` },
+    { icon: Phone, label: 'Phone', value: '+91 81068 85488', href: 'tel:8106885488' },
+    { icon: Mail, label: 'Email', value: BRAND.email, href: `mailto:${BRAND.email}` },
+    { icon: MessageCircle, label: 'WhatsApp', value: 'Chat with us', href: `https://wa.me/${BRAND.secondaryWhatsapp}` },
+    { icon: MapPin, label: 'Office', value: 'Hyderabad, Telangana, India', href: '#' },
   ];
 
   return (
@@ -92,7 +94,7 @@ export default function ContactPage() {
             </div>
             <div className="space-y-1.5">
               <label className="text-[11px] uppercase tracking-widest text-muted-foreground font-medium">Phone</label>
-              <Input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+91 98765 43210" className="bg-secondary border-none" />
+              <Input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder={BRAND.whatsappDisplay} className="bg-secondary border-none" />
             </div>
             <div className="space-y-1.5">
               <label className="text-[11px] uppercase tracking-widest text-muted-foreground font-medium">Message *</label>
@@ -111,55 +113,75 @@ export default function ContactPage() {
           viewport={{ once: true }}
           className="mt-16"
         >
-          <h2 className="font-display text-2xl text-center mb-8">Our Branches</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <h2 className="font-display font-black text-4xl text-center mb-12 text-primary">
+            Our <span className="text-secondary">Hubs</span>
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                name: 'Branch 1',
+                name: 'Ameerpet Hub',
+                address: 'Shiv Bagh Colony, Near Fruitoholic, Ameerpet, Hyderabad - 500016',
                 mapUrl: 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15551.941494285498!2d78.4867813!3d17.4506021!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb91f5f8b3b3b3%3A0x1234567890abcdef!2sHyderabad!5e0!3m2!1sen!2sin',
                 link: 'https://maps.app.goo.gl/JbfiTCNVrpRQrvaV7',
               },
               {
-                name: 'Branch 2',
+                name: 'Madhapur Hub',
+                address: 'Madhapur, HITEC City Area, Hyderabad - 500081',
                 mapUrl: 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15552.5!2d78.49!3d17.44!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb91f5f8b3b3b4%3A0x1234567890abcdf0!2sHyderabad!5e0!3m2!1sen!2sin',
                 link: 'https://maps.app.goo.gl/h8FasxtNgLKvoCEA6',
               },
               {
-                name: 'Branch 3',
+                name: 'Kukatpally Hub',
+                address: 'Kukatpally, Near KPHB Metro Station, Hyderabad - 500072',
                 mapUrl: 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15553.0!2d78.48!3d17.45!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb91f5f8b3b3b5%3A0x1234567890abcdf1!2sHyderabad!5e0!3m2!1sen!2sin',
                 link: 'https://maps.app.goo.gl/67rjbrQDXeaKWCe77',
               },
             ].map((branch, i) => (
               <motion.div
                 key={branch.name}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-card rounded-2xl border border-border/50 overflow-hidden hover:border-primary/30 transition-colors"
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="group relative bg-white/70 backdrop-blur-xl rounded-[2rem] border border-primary/10 shadow-xl shadow-primary/5 overflow-hidden hover:shadow-2xl hover:border-primary/30 transition-all duration-500 card-lift flex flex-col"
               >
-                <iframe
-                  src={branch.mapUrl}
-                  width="100%"
-                  height="220"
-                  style={{ border: 0, filter: 'grayscale(1) invert(0.92) contrast(0.9)' }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title={branch.name}
-                />
-                <div className="p-4 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <MapPin className="h-4 w-4 text-primary" />
-                    <span className="text-sm font-medium">{branch.name}</span>
+                {/* Brand Mix Gradient Background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-white/50 to-secondary/10 opacity-60 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                <div className="relative z-10 w-full h-48 overflow-hidden rounded-t-[2rem]">
+                  <iframe
+                    src={branch.mapUrl}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    style={{ border: 0, filter: 'grayscale(0.8) contrast(1.1) opacity(0.9) sepia(0.1)' }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title={branch.name}
+                  />
+                  {/* Subtle top inner shadow overlay for iframe */}
+                  <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.1)] pointer-events-none" />
+                </div>
+
+                <div className="relative z-10 p-6 flex flex-col justify-between flex-grow gap-3 bg-white/40">
+                  <div className="flex items-start gap-2">
+                    <div className="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <MapPin className="h-4 w-4 text-secondary drop-shadow-sm" />
+                    </div>
+                    <div>
+                      <span className="font-display font-black text-lg text-primary">{branch.name}</span>
+                      <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{branch.address}</p>
+                    </div>
                   </div>
+
                   <a
                     href={branch.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs text-primary hover:underline"
+                    className="w-full"
                   >
-                    Open in Maps →
+                    <Button variant="outline" className="w-full border-primary/20 text-primary hover:bg-primary hover:text-white transition-all group-hover:border-primary/50 shadow-sm" size="sm">
+                      Open in Maps
+                    </Button>
                   </a>
                 </div>
               </motion.div>
