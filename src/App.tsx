@@ -15,6 +15,7 @@ import TripPackagesPage from "./pages/TripPackagesPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import OffersPage from "./pages/OffersPage";
+import ListVehiclePage from "./pages/ListVehiclePage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminBikesPage from "./pages/admin/AdminBikesPage";
@@ -27,7 +28,7 @@ import AdminPackagesPage from "./pages/admin/AdminPackagesPage";
 const queryClient = new QueryClient();
 
 function AdminGuard({ children }: { children: React.ReactNode }) {
-  const isAdmin = localStorage.getItem('ridex_admin') === 'true';
+  const isAdmin = localStorage.getItem('sriganesh_admin') === 'true';
   if (!isAdmin) return <Navigate to="/admin/login" replace />;
   return <>{children}</>;
 }
@@ -50,6 +51,7 @@ const App = () => (
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/offers" element={<OffersPage />} />
+            <Route path="/list-vehicle" element={<ListVehiclePage />} />
             <Route path="/admin/login" element={<AdminLoginPage />} />
           </Route>
 

@@ -62,7 +62,7 @@ export default function AdminDashboard() {
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
         <h1 className="font-display text-3xl md:text-4xl">Dashboard</h1>
-        <p className="text-sm text-muted-foreground mt-1">Welcome back. Here's what's happening with RideX today.</p>
+        <p className="text-sm text-muted-foreground mt-1">Welcome back. Here's what's happening with Sri Ganesh Bike Rentals today.</p>
       </motion.div>
 
       {/* Stats */}

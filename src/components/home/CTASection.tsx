@@ -22,7 +22,7 @@ export function CTASection() {
               Ready to <span className="text-gradient">Ride</span>?
             </h2>
             <p className="text-muted-foreground text-sm sm:text-base max-w-md mx-auto mb-8">
-              Join thousands of riders who trust RideX for affordable, convenient & premium bike rentals.
+              Join thousands of riders who trust Sri Ganesh Bike Rentals for affordable, convenient & premium bike rentals.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/bikes">

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Bike, Shield, Lock } from 'lucide-react';
+import { Shield, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
@@ -26,7 +26,7 @@ export default function AdminLoginPage() {
   const handleVerifyOTP = () => {
     if (otp !== ADMIN_OTP) { toast.error('Invalid OTP. Try 1234'); return; }
     setLoading(true);
-    setTimeout(() => { setLoading(false); localStorage.setItem('ridex_admin', 'true'); toast.success('Welcome, Admin!'); navigate('/admin'); }, 800);
+    setTimeout(() => { setLoading(false); localStorage.setItem('sriganesh_admin', 'true'); toast.success('Welcome, Admin!'); navigate('/admin'); }, 800);
   };
 
   return (
@@ -40,7 +40,7 @@ export default function AdminLoginPage() {
             <Shield className="h-7 w-7 text-primary" />
           </div>
           <h1 className="font-display text-3xl">Admin Login</h1>
-          <p className="text-sm text-muted-foreground mt-2">Secure access to RideX management</p>
+          <p className="text-sm text-muted-foreground mt-2">Secure access to Sri Ganesh management</p>
         </div>
 
         {step === 'phone' ? (
@@ -51,13 +51,11 @@ export default function AdminLoginPage() {
                 <div className="bg-secondary rounded-xl px-4 py-3 text-sm text-muted-foreground flex-shrink-0">+91</div>
                 <Input type="tel" placeholder="Enter phone number" value={phone}
                   onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                  className="bg-secondary border-none" maxLength={10}
-                />
+                  className="bg-secondary border-none" maxLength={10} />
               </div>
             </div>
             <Button className="w-full font-bold gold-shine text-primary-foreground border-0" size="lg"
-              onClick={handleSendOTP} disabled={phone.length !== 10 || loading}
-            >
+              onClick={handleSendOTP} disabled={phone.length !== 10 || loading}>
               {loading ? <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}><Lock className="h-4 w-4" /></motion.div> : 'Send OTP'}
             </Button>
           </motion.div>
@@ -75,8 +73,7 @@ export default function AdminLoginPage() {
               </div>
             </div>
             <Button className="w-full font-bold gold-shine text-primary-foreground border-0" size="lg"
-              onClick={handleVerifyOTP} disabled={otp.length !== 4 || loading}
-            >
+              onClick={handleVerifyOTP} disabled={otp.length !== 4 || loading}>
               {loading ? <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}><Lock className="h-4 w-4" /></motion.div> : 'Verify & Login'}
             </Button>
             <button onClick={() => { setStep('phone'); setOtp(''); }} className="w-full text-sm text-muted-foreground hover:text-primary transition-colors">← Change number</button>
@@ -85,7 +82,7 @@ export default function AdminLoginPage() {
 
         <div className="mt-6 pt-5 border-t border-border text-center">
           <p className="text-[11px] text-muted-foreground">
-            <Bike className="h-3 w-3 inline mr-1" /> RideX Admin Portal • Authorized Personnel Only
+            Sri Ganesh Bike Rentals • Admin Portal • Authorized Personnel Only
           </p>
         </div>
       </motion.div>

@@ -20,7 +20,7 @@ export function WhyChooseUs() {
           viewport={{ once: true }}
           className="text-center mb-14"
         >
-          <span className="text-primary text-xs font-semibold tracking-[0.2em] uppercase">Why RideX</span>
+          <span className="text-primary text-xs font-semibold tracking-[0.2em] uppercase">Why Sri Ganesh</span>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl mt-1">Why Choose Us</h2>
         </motion.div>
 

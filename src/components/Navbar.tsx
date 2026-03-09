@@ -1,21 +1,15 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, User, Bike, ChevronDown } from 'lucide-react';
+import { Menu, X, User } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu';
 
 const navItems = [
   { label: 'Home', path: '/' },
   { label: 'Bikes', path: '/bikes' },
   { label: 'Monthly Rentals', path: '/packages' },
   { label: 'Offers', path: '/offers' },
+  { label: 'List Your Vehicle', path: '/list-vehicle' },
   { label: 'About', path: '/about' },
   { label: 'Contact', path: '/contact' },
 ];
@@ -43,14 +37,9 @@ export function Navbar() {
           : 'bg-transparent'
       }`}
     >
-      <div className="container mx-auto flex items-center justify-between px-6 py-3">
+      <div className="container mx-auto flex items-center justify-between px-6 py-2">
         <Link to="/" className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
-            <Bike className="h-5 w-5 text-primary-foreground" />
-          </div>
-          <span className="font-display text-2xl tracking-tight text-foreground">
-            Ride<span className="text-primary">X</span>
-          </span>
+          <img src="/images/logo.png" alt="Sri Ganesh Bike Rentals" className="h-12 w-auto" />
         </Link>
 
         {/* Desktop nav */}
@@ -80,10 +69,7 @@ export function Navbar() {
         </div>
 
         {/* Mobile toggle */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="lg:hidden text-foreground p-2"
-        >
+        <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden text-foreground p-2">
           {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
