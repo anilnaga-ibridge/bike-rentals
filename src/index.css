@@ -7,24 +7,24 @@
 @layer base {
   :root {
     --background: 0 0% 7%;
-    --foreground: 45 10% 95%;
+    --foreground: 210 20% 95%;
 
     --card: 0 0% 10%;
-    --card-foreground: 45 10% 95%;
+    --card-foreground: 210 20% 95%;
 
     --popover: 0 0% 10%;
-    --popover-foreground: 45 10% 95%;
+    --popover-foreground: 210 20% 95%;
 
-    --primary: 43 96% 56%;
-    --primary-foreground: 0 0% 5%;
+    --primary: 220 70% 50%;
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 14%;
-    --secondary-foreground: 45 10% 90%;
+    --secondary-foreground: 210 20% 90%;
 
     --muted: 0 0% 16%;
     --muted-foreground: 0 0% 55%;
 
-    --accent: 38 92% 50%;
+    --accent: 30 90% 55%;
     --accent-foreground: 0 0% 5%;
 
     --destructive: 0 72% 51%;
@@ -32,29 +32,28 @@
 
     --border: 0 0% 16%;
     --input: 0 0% 16%;
-    --ring: 43 96% 56%;
+    --ring: 220 70% 50%;
 
     --radius: 0.75rem;
 
     --sidebar-background: 0 0% 8%;
-    --sidebar-foreground: 45 10% 90%;
-    --sidebar-primary: 43 96% 56%;
-    --sidebar-primary-foreground: 0 0% 5%;
+    --sidebar-foreground: 210 20% 90%;
+    --sidebar-primary: 220 70% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 0 0% 13%;
-    --sidebar-accent-foreground: 45 10% 90%;
+    --sidebar-accent-foreground: 210 20% 90%;
     --sidebar-border: 0 0% 16%;
-    --sidebar-ring: 43 96% 56%;
+    --sidebar-ring: 220 70% 50%;
 
     /* Custom tokens */
     --glass: 0 0% 100% / 0.04;
     --glass-border: 0 0% 100% / 0.08;
     --glass-hover: 0 0% 100% / 0.08;
-    --glow: 43 96% 56% / 0.15;
-    --glow-strong: 43 96% 56% / 0.3;
+    --glow: 220 70% 50% / 0.15;
+    --glow-strong: 220 70% 50% / 0.3;
     --surface: 0 0% 10%;
     --surface-hover: 0 0% 13%;
-    --gold-gradient-start: 43 96% 56%;
-    --gold-gradient-end: 38 92% 50%;
+    --orange-accent: 30 90% 55%;
   }
 }
 
@@ -104,8 +103,14 @@
     @apply hover:bg-[hsl(var(--surface-hover))] transition-colors duration-300;
   }
 
+  .brand-shine {
+    background: linear-gradient(135deg, hsl(220 70% 50%) 0%, hsl(30 90% 55%) 50%, hsl(220 70% 50%) 100%);
+    background-size: 200% 200%;
+    animation: shine 3s ease-in-out infinite;
+  }
+
   .gold-shine {
-    background: linear-gradient(135deg, hsl(43 96% 56%) 0%, hsl(38 92% 50%) 50%, hsl(43 96% 56%) 100%);
+    background: linear-gradient(135deg, hsl(220 70% 50%) 0%, hsl(220 70% 60%) 50%, hsl(220 70% 50%) 100%);
     background-size: 200% 200%;
     animation: shine 3s ease-in-out infinite;
   }

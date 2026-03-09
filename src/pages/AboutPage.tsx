@@ -51,7 +51,7 @@ export default function AboutPage() {
               transparent pricing, quality vehicles, and instant booking.
             </p>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              RideX was built to change that. We partner with verified vehicle owners, maintain strict quality standards, 
+              Sri Ganesh Bike Rentals was built to change that. We partner with verified vehicle owners, maintain strict quality standards, 
               and use technology to make the entire experience seamless — from search to ride.
             </p>
             <div className="flex gap-8 pt-4">
