@@ -313,7 +313,7 @@ export default function TripPackagesPage() {
                 </Button>
               </a>
               <a href={`tel:${BRAND.whatsapp}`}>
-                <Button size="lg" variant="outline" className="h-14 px-12 rounded-2xl border-white/20 text-white hover:bg-white hover:text-primary font-black text-xs uppercase tracking-widest transition-all">
+                <Button size="lg" variant="outline" className="h-14 px-12 rounded-2xl border-white/20 text-primary hover:bg-white hover:text-primary font-black text-xs uppercase tracking-widest transition-all">
                   <ArrowRight className="mr-2 h-4 w-4" /> Call Us Now
                 </Button>
               </a>
