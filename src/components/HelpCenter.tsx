@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, Phone, Mail, X, HelpCircle, ChevronRight } from 'lucide-react';
+import { Phone, Mail, X, HelpCircle, ChevronRight } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 import { useState } from 'react';
 
 export function HelpCenter() {
@@ -7,7 +8,7 @@ export function HelpCenter() {
 
   const contacts = [
     {
-      icon: MessageCircle,
+      icon: WhatsAppIcon,
       label: 'WhatsApp Support',
       desc: 'Instant Response',
       color: 'bg-[#25D366]',
