@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, Mail, X, HelpCircle, ChevronRight } from 'lucide-react';
+import { Phone, Mail, X, HelpCircle, ChevronRight, MessageCircle } from 'lucide-react';
 import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 import { useState } from 'react';
 
@@ -27,6 +27,13 @@ export function HelpCenter() {
       desc: 'support@sriganesh.com',
       color: 'bg-accent',
       href: 'mailto:support@sriganeshbikerentals.com',
+    },
+    {
+      icon: MessageCircle,
+      label: 'Text Message',
+      desc: 'SMS Support',
+      color: 'bg-indigo-500',
+      href: 'sms:+919100438272',
     },
   ];
 
