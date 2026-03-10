@@ -1,14 +1,25 @@
 import React from "react";
 
 export function WhatsAppIcon({ className = "", ...props }: React.HTMLAttributes<HTMLElement>) {
-    // Map standard lucide tailwind sizes to font-sizes for Font Awesome
-    let sizeClass = "";
-    if (className.includes("h-4")) sizeClass = "text-[1.2rem]"; // standard buttons
-    else if (className.includes("h-5")) sizeClass = "text-[1.5rem]"; // contact page list
-    else if (className.includes("h-7")) sizeClass = "text-[2.2rem]"; // floating button
-    else if (className.includes("h-12")) sizeClass = "text-[3.5rem]"; // how it works steps
+    // Determine the font size based on the passed Tailwind height classes
+    // This allows the icon to properly fill its container without overflowing or being too small
+    let sizeStyle = {};
+    if (className.includes("h-4")) sizeStyle = { fontSize: "1.25rem" };
+    else if (className.includes("h-5")) sizeStyle = { fontSize: "1.5rem" };
+    else if (className.includes("h-6")) sizeStyle = { fontSize: "1.75rem" };
+    else if (className.includes("h-7")) sizeStyle = { fontSize: "2rem" };
+    else if (className.includes("h-8")) sizeStyle = { fontSize: "2.5rem" };
+    else if (className.includes("h-10")) sizeStyle = { fontSize: "3rem" };
+    else if (className.includes("h-12")) sizeStyle = { fontSize: "3.5rem" };
+    else sizeStyle = { fontSize: "inherit" }; // fallback
 
     return (
-        <i className={`fab fa-whatsapp flex items-center justify-center ${sizeClass} ${className}`} {...props} />
+        <span
+            className={`inline-flex items-center justify-center ${className}`}
+            style={{ ...sizeStyle, lineHeight: 1 }}
+            {...props}
+        >
+            <i className="fab fa-whatsapp" style={{ margin: 0, padding: 0 }} />
+        </span>
     );
 }
