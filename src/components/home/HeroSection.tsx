@@ -146,16 +146,6 @@ export function HeroSection() {
                     )}
                     whileHover={{ rotateY: 10, scale: 1.05 }}
                   />
-                  {/* Floating name badge on active */}
-                  {isActive && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="absolute -top-12 left-1/2 -translate-x-1/2 bg-secondary/90 backdrop-blur-sm text-white text-xs font-black uppercase tracking-widest px-4 py-2 rounded-full whitespace-nowrap border border-secondary/30 shadow-lg shadow-secondary/20"
-                    >
-                      🏍️ {bike.name}
-                    </motion.div>
-                  )}
                 </div>
               </motion.div>
             );
