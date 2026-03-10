@@ -68,8 +68,6 @@ export function HeroSection() {
     { id: 1, name: 'Premium Sport', price: '₹1200', url: '/images/sports.png' },
     { id: 2, name: 'Exclusive Edition', price: '₹2500', url: '/images/premium.png' },
     { id: 3, name: 'Classic Cruiser', price: '₹1500', url: '/images/cruiser.png' },
-    { id: 4, name: 'Dynamic Performance', price: '₹1800', url: '/images/sports.png' },
-    { id: 5, name: 'Urban Electric', price: '₹800', url: '/images/scooter.png' },
   ], []);
 
   const radius = 400;
@@ -155,7 +153,7 @@ export function HeroSection() {
                       animate={{ opacity: 1, y: 0 }}
                       className="absolute -top-12 left-1/2 -translate-x-1/2 bg-secondary/90 backdrop-blur-sm text-white text-xs font-black uppercase tracking-widest px-4 py-2 rounded-full whitespace-nowrap border border-secondary/30 shadow-lg shadow-secondary/20"
                     >
-                      🏍️ {bike.name} · {bike.price}/day
+                      🏍️ {bike.name}
                     </motion.div>
                   )}
                 </div>
