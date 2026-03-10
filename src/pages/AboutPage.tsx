@@ -352,7 +352,7 @@ export default function AboutPage() {
                 size="lg"
                 variant="outline"
                 onClick={() => navigate('/contact')}
-                className="h-14 px-12 rounded-2xl border-white/20 text-white hover:bg-white hover:text-[#020617] font-black text-xs uppercase tracking-widest transition-all"
+                className="h-14 px-12 rounded-2xl border-white/20 text-white hover:bg-white hover:text-primary font-black text-xs uppercase tracking-widest transition-all"
               >
                 Contact Us
               </Button>
