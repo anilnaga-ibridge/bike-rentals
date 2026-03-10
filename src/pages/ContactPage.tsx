@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, MessageCircle, Send } from 'lucide-react';
+import { Phone, Mail, MapPin, Send } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -27,7 +28,7 @@ export default function ContactPage() {
     { icon: Phone, label: 'Phone', value: BRAND.whatsappDisplay, href: `tel:${BRAND.whatsapp}` },
     { icon: Phone, label: 'Phone', value: '+91 81068 85488', href: 'tel:8106885488' },
     { icon: Mail, label: 'Email', value: BRAND.email, href: `mailto:${BRAND.email}` },
-    { icon: MessageCircle, label: 'WhatsApp', value: 'Chat with us', href: `https://wa.me/${BRAND.secondaryWhatsapp}` },
+    { icon: WhatsAppIcon, label: 'WhatsApp', value: 'Chat with us', href: `https://wa.me/${BRAND.secondaryWhatsapp}` },
     { icon: MapPin, label: 'Office', value: 'Hyderabad, Telangana, India', href: '#' },
   ];
 

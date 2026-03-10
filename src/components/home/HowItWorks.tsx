@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Search, Bike, Package, MessageCircle, ArrowRight } from 'lucide-react';
+import { Search, Bike, Package, ArrowRight } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 import { cn } from '@/lib/utils';
 
 const steps = [
@@ -19,7 +20,7 @@ const steps = [
     color: 'bg-violet-600', shadow: 'shadow-violet-500/30',
   },
   {
-    icon: MessageCircle, step: '04', title: 'Book on WhatsApp',
+    icon: WhatsAppIcon, step: '04', title: 'Book on WhatsApp',
     desc: 'Confirm via WhatsApp in seconds. No app download, no hassle.',
     color: 'bg-emerald-600', shadow: 'shadow-emerald-500/30',
   },

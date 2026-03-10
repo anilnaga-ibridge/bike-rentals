@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Phone, MessageCircle } from 'lucide-react';
+import { ArrowRight, Phone } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 import { Link } from 'react-router-dom';
 import { BRAND } from '@/constants/brand';
 
@@ -73,7 +74,7 @@ export function CTASection() {
                   variant="outline"
                   className="h-14 px-12 rounded-2xl border-white/20 text-white hover:bg-white hover:text-[#020617] font-black text-xs uppercase tracking-widest transition-all"
                 >
-                  <MessageCircle className="mr-2 h-4 w-4" /> Chat on WhatsApp
+                  <WhatsAppIcon className="mr-2 h-4 w-4" /> Chat on WhatsApp
                 </Button>
               </a>
               <a href={`tel:${BRAND.whatsapp}`}>

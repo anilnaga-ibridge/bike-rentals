@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 const TEASER_WORDS = ["Perfect Ride", "Dream Bike", "Next Adventure", "Open Road"];
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { Search, MapPin, Calendar, ArrowRight, Shield, Star, Bike, Clock, MessageCircle } from 'lucide-react';
+import { Search, MapPin, Calendar, ArrowRight, Shield, Star, Bike, Clock } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -197,7 +198,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="mt-6 text-lg md:text-xl text-white/50 font-medium max-w-xl mx-auto leading-relaxed"
+            className="mt-6 text-lg md:text-xl text-white font-medium max-w-xl mx-auto leading-relaxed"
           >
             Premium bikes at unbeatable prices. Daily, weekly & monthly rentals
             available across Madhapur, Ameerpet & Kukatpally.
@@ -307,7 +308,7 @@ export function HeroSection() {
                 variant="outline"
                 className="h-14 px-10 rounded-2xl border-white/20 text-white hover:bg-white hover:text-[#020617] font-black text-xs uppercase tracking-widest transition-all w-full sm:w-auto"
               >
-                <MessageCircle className="mr-2 h-4 w-4" /> Book via WhatsApp
+                <WhatsAppIcon className="mr-2 h-4 w-4" /> Book via WhatsApp
               </Button>
             </a>
           </motion.div>

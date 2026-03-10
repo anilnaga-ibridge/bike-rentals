@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { tripPackages } from '@/data/packages';
 import { Calendar, MapPin, Star, Mountain, ChevronRight, Check, Users, Clock, Compass, Flame, ArrowRight, Phone } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -308,7 +309,7 @@ export default function TripPackagesPage() {
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
               <a href={`https://wa.me/${BRAND.whatsapp}?text=Hi! I want to plan a custom bike trip. Can you help?`} target="_blank" rel="noopener noreferrer">
                 <Button size="lg" className="h-14 px-12 rounded-2xl bg-secondary hover:bg-secondary/90 text-white font-black text-xs uppercase tracking-widest shadow-lg shadow-secondary/30 hover:scale-105 transition-all border-0">
-                  <Phone className="mr-2 h-4 w-4" /> Chat on WhatsApp
+                  <WhatsAppIcon className="mr-2 h-4 w-4" /> Chat on WhatsApp
                 </Button>
               </a>
               <a href={`tel:${BRAND.whatsapp}`}>

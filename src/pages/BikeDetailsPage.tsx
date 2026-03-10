@@ -6,6 +6,7 @@ import {
   MapPin, Clock, ShieldCheck, Heart, CheckCircle, Share2, Phone
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 import { BookingForm } from '@/components/booking/BookingForm';
 import { BikeReviews } from '@/components/booking/BikeReviews';
 import { cn } from '@/lib/utils';
@@ -284,7 +285,7 @@ export default function BikeDetailsPage() {
                       rel="noopener noreferrer"
                       className="flex-1 flex items-center justify-center gap-2 h-12 bg-secondary hover:bg-secondary/90 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-secondary/30 hover:scale-[1.02] transition-all"
                     >
-                      Book via WhatsApp
+                      <WhatsAppIcon className="mr-2 h-4 w-4 inline-block" /> Book via WhatsApp
                     </a>
                     <a
                       href={`tel:${BRAND.whatsapp}`}
