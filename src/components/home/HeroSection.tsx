@@ -114,13 +114,12 @@ export function HeroSection() {
             const z = Math.cos(rad) * radius;
             const scale = 0.5 + (z + radius) / (radius * 2) * 0.7;
             const opacity = 0.2 + (z + radius) / (radius * 2) * 0.8;
-            const blur = Math.max(0, (radius - z) / 40);
             const isActive = index === activeIndex;
 
             return (
               <motion.div
                 key={bike.id}
-                animate={{ x, z, scale, opacity, filter: `blur(${blur}px)`, zIndex: Math.round(z + radius) }}
+                animate={{ x, z, scale, opacity, zIndex: Math.round(z + radius) }}
                 transition={{ type: 'spring', damping: 20, stiffness: 100 }}
                 className="absolute flex flex-col items-center pointer-events-none"
                 onMouseEnter={() => setIsHovering(true)}
