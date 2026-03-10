@@ -72,7 +72,7 @@ export function CTASection() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="h-14 px-12 rounded-2xl border-white/20 text-white hover:bg-white hover:text-[#020617] font-black text-xs uppercase tracking-widest transition-all"
+                  className="h-14 px-12 rounded-2xl border-white/20 text-white hover:bg-white hover:text-primary font-black text-xs uppercase tracking-widest transition-all"
                 >
                   <WhatsAppIcon className="mr-2 h-4 w-4" /> Chat on WhatsApp
                 </Button>
@@ -81,7 +81,7 @@ export function CTASection() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="h-14 px-10 rounded-2xl border-white/10 text-white/70 hover:bg-white/10 hover:text-white font-black text-xs uppercase tracking-widest"
+                  className="h-14 px-10 rounded-2xl border-white/10 text-white hover:bg-white hover:text-primary font-black text-xs uppercase tracking-widest"
                 >
                   <Phone className="mr-2 h-4 w-4" /> Call Us
                 </Button>
