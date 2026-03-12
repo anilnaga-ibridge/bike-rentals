@@ -26,6 +26,7 @@ import AdminCustomersPage from "./pages/admin/AdminCustomersPage";
 import AdminMaintenancePage from "./pages/admin/AdminMaintenancePage";
 import AdminCouponsPage from "./pages/admin/AdminCouponsPage";
 import AdminPackagesPage from "./pages/admin/AdminPackagesPage";
+import LocationLanding from "./pages/LocationLanding";
 
 const queryClient = new QueryClient();
 
@@ -64,6 +65,12 @@ function App() {
               <Route path="/offers" element={<OffersPage />} />
               <Route path="/list-vehicle" element={<ListVehiclePage />} />
               <Route path="/admin/login" element={<AdminLoginPage />} />
+
+              {/* Regional SEO Routes */}
+              <Route path="/bike-rental-hyderabad" element={<LocationLanding />} />
+              <Route path="/bike-rental-madhapur" element={<LocationLanding />} />
+              <Route path="/bike-rental-kukatpally" element={<LocationLanding />} />
+              <Route path="/bike-rental-ameerpet" element={<LocationLanding />} />
             </Route>
 
             {/* Admin routes with sidebar layout */}

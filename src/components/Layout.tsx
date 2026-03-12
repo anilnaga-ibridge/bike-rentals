@@ -74,18 +74,24 @@ export function Layout() {
                 </ul>
               </div>
 
-              {/* Cities */}
+              {/* Cities / Regional SEO */}
               <div className="col-span-1 md:col-span-5 lg:col-span-3 space-y-5">
                 <h4 className="font-display font-black text-lg text-primary tracking-wide">Our Hubs</h4>
-                <div className="flex flex-wrap gap-2">
-                  {['Madhapur', 'Ameerpet', 'Kukatpally'].map((c) => (
-                    <div
-                      key={c}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/60 border border-primary/10 text-xs font-semibold text-primary shadow-sm hover:shadow-md hover:bg-white hover:border-primary/30 transition-all cursor-default"
+                <div className="flex flex-col gap-3">
+                  {[
+                    { name: 'Hyderabad', path: '/bike-rental-hyderabad' },
+                    { name: 'Madhapur', path: '/bike-rental-madhapur' },
+                    { name: 'Kukatpally', path: '/bike-rental-kukatpally' },
+                    { name: 'Ameerpet', path: '/bike-rental-ameerpet' },
+                  ].map((c) => (
+                    <Link
+                      key={c.path}
+                      to={c.path}
+                      className="inline-flex items-center gap-2 text-muted-foreground hover:text-secondary group transition-all"
                     >
-                      <MapPin className="h-3 w-3 text-secondary" />
-                      {c}
-                    </div>
+                      <MapPin className="h-4 w-4 text-secondary group-hover:scale-110 transition-transform" />
+                      <span className="text-sm font-semibold">{c.name} Bike Rental</span>
+                    </Link>
                   ))}
                 </div>
               </div>

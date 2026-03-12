@@ -40,7 +40,7 @@ export function BikeCard({ bike }: BikeCardProps) {
           <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-primary/5 to-secondary/5">
             <img
               src={bike.image}
-              alt={bike.name || 'Rental Bike'}
+              alt={`${bike.brand} ${bike.name} ${bike.category} for rent in ${cityName}, Hyderabad`}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               loading="lazy"
             />

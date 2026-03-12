@@ -4,6 +4,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Smooth scroll ───────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  /* offset for sticky navbar */
+  overflow-x: hidden;
+  /* prevent horizontal scroll stacking */
+}
+
 @layer base {
   :root {
     --background: 0 0% 7%;
@@ -72,6 +81,10 @@
     @apply bg-background text-foreground antialiased;
     font-family: 'Space Grotesk', system-ui, sans-serif;
     background-color: #f8f9fa;
+    overflow-x: hidden;
+    /* no horizontal stacking */
+    -webkit-overflow-scrolling: touch;
+    /* butter-smooth iOS momentum */
   }
 
   h1,

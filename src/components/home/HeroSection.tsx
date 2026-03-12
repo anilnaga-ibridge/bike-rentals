@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const TEASER_WORDS = ["Perfect Ride", "Dream Bike", "Next Adventure", "Open Road"];
@@ -20,50 +20,48 @@ const TRUST_BADGES = [
   { icon: Clock, label: 'Book in 2 Min', sub: 'Via WhatsApp' },
 ];
 
+// Stable particles — computed once, never on re-render
+const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
+  id: i,
+  left: `${(i * 5.5) % 100}%`,
+  duration: `${12 + (i * 1.3) % 14}s`,
+  delay: `${(i * 0.7) % 6}s`,
+}));
+
 export function HeroSection() {
   const [city, setCity] = useState('');
   const [pickupDate, setPickupDate] = useState<Date>();
   const [dropDate, setDropDate] = useState<Date>();
   const navigate = useNavigate();
 
-  const [rotation, setRotation] = useState(0);
-  const [isHovering, setIsHovering] = useState(false);
-
+  // ── Typewriter ─────────────────────────────────────────────────────────────
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [subIndex, setSubIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     if (subIndex === TEASER_WORDS[phraseIndex].length && !isDeleting) {
-      const timeout = setTimeout(() => setIsDeleting(true), 2500);
-      return () => clearTimeout(timeout);
+      const t = setTimeout(() => setIsDeleting(true), 2500);
+      return () => clearTimeout(t);
     }
     if (subIndex === 0 && isDeleting) {
       setIsDeleting(false);
       setPhraseIndex((prev) => (prev + 1) % TEASER_WORDS.length);
       return;
     }
-    const timeout = setTimeout(() => {
-      setSubIndex((prev) => prev + (isDeleting ? -1 : 1));
-    }, isDeleting ? 40 : 100);
-    return () => clearTimeout(timeout);
+    const t = setTimeout(
+      () => setSubIndex((prev) => prev + (isDeleting ? -1 : 1)),
+      isDeleting ? 40 : 100
+    );
+    return () => clearTimeout(t);
   }, [subIndex, phraseIndex, isDeleting]);
 
-  useEffect(() => {
-    if (isHovering) return;
-    const interval = setInterval(() => { setRotation(prev => prev + 0.18); }, 30);
-    return () => clearInterval(interval);
-  }, [isHovering]);
-
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const bgX = useSpring(useTransform(mouseX, [-0.5, 0.5], [15, -15]), { damping: 25 });
-  const bgY = useSpring(useTransform(mouseY, [-0.5, 0.5], [10, -10]), { damping: 25 });
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    mouseX.set((e.clientX / window.innerWidth) - 0.5);
-    mouseY.set((e.clientY / window.innerHeight) - 0.5);
-  };
+  // ── 3‑D Showroom rotation via RAF + refs (ZERO React re-renders) ───────────
+  const rotationRef = useRef(0);
+  const isHoveringRef = useRef(false);
+  const rafIdRef = useRef<number>(0);
+  const bikeRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const activeIndexRef = useRef(0);
 
   const bikes = useMemo(() => [
     { id: 1, name: 'Premium Sport', price: '₹1200', url: '/images/sports.png' },
@@ -73,8 +71,46 @@ export function HeroSection() {
 
   const radius = 400;
   const bikeCount = bikes.length;
-  const normalizedRotation = rotation % 360;
-  const activeIndex = Math.round((360 - (normalizedRotation % 360)) / (360 / bikeCount)) % bikeCount;
+
+  // RAF tick — directly mutates DOM without going through React state
+  const tick = useCallback(() => {
+    if (!isHoveringRef.current) {
+      rotationRef.current = (rotationRef.current + 0.18) % 360;
+    }
+
+    const r = rotationRef.current;
+    bikeRefs.current.forEach((el, index) => {
+      if (!el) return;
+      const angle = (index / bikeCount) * 360 + r;
+      const rad = (angle * Math.PI) / 180;
+      const x = Math.sin(rad) * radius;
+      const z = Math.cos(rad) * radius;
+      const scale = 0.5 + (z + radius) / (radius * 2) * 0.7;
+      const opacity = 0.2 + (z + radius) / (radius * 2) * 0.8;
+      const zIndex = Math.round(z + radius);
+      el.style.transform = `translateX(${x}px) scale(${scale})`;
+      el.style.opacity = String(opacity);
+      el.style.zIndex = String(zIndex);
+    });
+
+    rafIdRef.current = requestAnimationFrame(tick);
+  }, [bikeCount]);
+
+  useEffect(() => {
+    rafIdRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafIdRef.current);
+  }, [tick]);
+
+  // ── Mouse parallax ────────────────────────────────────────────────────────
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const bgX = useSpring(useTransform(mouseX, [-0.5, 0.5], [15, -15]), { damping: 25 });
+  const bgY = useSpring(useTransform(mouseY, [-0.5, 0.5], [10, -10]), { damping: 25 });
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    mouseX.set((e.clientX / window.innerWidth) - 0.5);
+    mouseY.set((e.clientY / window.innerHeight) - 0.5);
+  }, [mouseX, mouseY]);
 
   return (
     <section
@@ -84,72 +120,47 @@ export function HeroSection() {
       {/* ── Atmospheric Background ── */}
       <motion.div style={{ x: bgX, y: bgY }} className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0B3D91]/25 via-[#020617] to-[#020617]" />
-        {/* Glow orbs */}
         <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/15 rounded-full blur-[120px]" />
         <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-secondary/10 rounded-full blur-[100px]" />
-        {/* Particles */}
-        {[...Array(25)].map((_, i) => (
+        {/* Stable particles — no random on re-render */}
+        {PARTICLES.map((p) => (
           <div
-            key={i}
+            key={p.id}
             className="particle w-1 h-1 bg-white/10"
-            style={{
-              left: `${Math.random() * 100}%`,
-              bottom: '5%',
-              animationDuration: `${10 + Math.random() * 15}s`,
-              animationDelay: `${Math.random() * 5}s`
-            }}
+            style={{ left: p.left, bottom: '5%', animationDuration: p.duration, animationDelay: p.delay }}
           />
         ))}
       </motion.div>
 
-      {/* ── 3D Rotating Showroom ── */}
+      {/* ── 3D Rotating Showroom (DOM-driven, zero React re-renders) ── */}
       <div className="relative w-full h-full flex items-center justify-center z-10 perspective-[2000px]">
         <div className="absolute bottom-[18%] w-[1400px] h-[300px] bg-gradient-to-t from-primary/10 to-transparent rounded-[50%] blur-3xl opacity-40" />
 
         <div className="relative w-full h-full flex items-center justify-center">
-          {bikes.map((bike, index) => {
-            const angle = (index / bikeCount) * 360 + rotation;
-            const rad = (angle * Math.PI) / 180;
-            const x = Math.sin(rad) * radius;
-            const z = Math.cos(rad) * radius;
-            const scale = 0.5 + (z + radius) / (radius * 2) * 0.7;
-            const opacity = 0.2 + (z + radius) / (radius * 2) * 0.8;
-            const isActive = index === activeIndex;
-
-            return (
-              <motion.div
-                key={bike.id}
-                animate={{ x, z, scale, opacity, zIndex: Math.round(z + radius) }}
-                transition={{ type: 'spring', damping: 20, stiffness: 100 }}
-                className="absolute flex flex-col items-center pointer-events-none"
-                onMouseEnter={() => setIsHovering(true)}
-                onMouseLeave={() => setIsHovering(false)}
-              >
-                {/* Floor Reflection */}
-                <div className="absolute -bottom-10 w-full h-1/2 overflow-hidden flex justify-center opacity-25">
-                  <img src={bike.url} className="w-[80%] floor-reflection grayscale brightness-125" />
-                </div>
-                {/* Bike */}
-                <div className="relative pointer-events-auto cursor-pointer">
-                  {isActive && (
-                    <>
-                      <div className="absolute inset-0 bg-primary/20 blur-[80px] rounded-full scale-125 animate-pulse" />
-                      <div className="absolute inset-0 bg-secondary/10 blur-[50px] rounded-full scale-105" />
-                    </>
-                  )}
-                  <motion.img
-                    src={bike.url}
-                    alt={bike.name}
-                    className={cn(
-                      "w-[400px] md:w-[600px] drop-shadow-[0_30px_60px_rgba(0,0,0,0.7)] transition-all",
-                      isActive && "drop-shadow-[0_0_50px_rgba(11,61,145,0.5)]"
-                    )}
-                    whileHover={{ rotateY: 10, scale: 1.05 }}
-                  />
-                </div>
-              </motion.div>
-            );
-          })}
+          {bikes.map((bike, index) => (
+            <div
+              key={bike.id}
+              ref={(el) => { bikeRefs.current[index] = el; }}
+              className="absolute flex flex-col items-center pointer-events-none will-change-transform"
+              onMouseEnter={() => { isHoveringRef.current = true; }}
+              onMouseLeave={() => { isHoveringRef.current = false; }}
+              style={{ willChange: 'transform, opacity' }}
+            >
+              {/* Floor Reflection */}
+              <div className="absolute -bottom-10 w-full h-1/2 overflow-hidden flex justify-center opacity-25">
+                <img src={bike.url} className="w-[80%] floor-reflection grayscale brightness-125" alt={`${bike.name} reflection`} loading="lazy" />
+              </div>
+              {/* Bike */}
+              <div className="relative pointer-events-auto cursor-pointer">
+                <img
+                  src={bike.url}
+                  alt={`${bike.name} - Premium Bike Rental in Hyderabad`}
+                  className="w-[400px] md:w-[600px] drop-shadow-[0_30px_60px_rgba(0,0,0,0.7)]"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -158,7 +169,6 @@ export function HeroSection() {
 
         {/* Top: Hero Text */}
         <div className="flex flex-col items-center text-center max-w-5xl mt-8 pointer-events-auto">
-          {/* Eyebrow pill */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -205,7 +215,6 @@ export function HeroSection() {
             className="w-full max-w-5xl mb-6"
           >
             <div className="relative overflow-hidden rounded-[2rem] bg-white/5 border border-white/10 backdrop-blur-2xl p-6 shadow-2xl">
-              {/* Inner glow */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/5 pointer-events-none rounded-[2rem]" />
 
               <div className="relative z-10 grid grid-cols-1 md:grid-cols-4 gap-4 items-end">

@@ -1,28 +1,93 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Set the document title to the name of your application -->
-    <title>Sri Ganesh Bike Rentals – Affordable Bike & Scooter Rentals</title>
-    <meta name="description" content="Sri Ganesh Bike Rentals - Premium bike & scooter rentals across 6 cities. Affordable, reliable & instant booking.">
-    <meta name="author" content="Sri Ganesh Bike Rentals" />
 
-    
-    
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/6517322d-b653-409e-a225-5e6a950a1dab/id-preview-b1d7136c--eea4cfe0-f26f-4ba7-91de-de7782d9c997.lovable.app-1772092341846.png">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="/images/logo.png" />
+  <!-- TODO: Set the document title to the name of your application -->
+  <title>Sri Ganesh Bike Rentals – Affordable Bike & Scooter Rentals</title>
+  <meta name="description"
+    content="Sri Ganesh Bike Rentals - Premium bike & scooter rentals across 6 cities. Affordable, reliable & instant booking.">
+  <meta name="author" content="Sri Ganesh Bike Rentals" />
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/6517322d-b653-409e-a225-5e6a950a1dab/id-preview-b1d7136c--eea4cfe0-f26f-4ba7-91de-de7782d9c997.lovable.app-1772092341846.png">
-    <meta property="og:title" content="Sri Ganesh Bike Rentals – Affordable Bike & Scooter Rentals">
-  <meta name="twitter:title" content="Sri Ganesh Bike Rentals – Affordable Bike & Scooter Rentals">
-  <meta property="og:description" content="Sri Ganesh Bike Rentals - Premium bike & scooter rentals across 6 cities. Affordable, reliable & instant booking.">
-  <meta name="twitter:description" content="Sri Ganesh Bike Rentals - Premium bike & scooter rentals across 6 cities. Affordable, reliable & instant booking.">
+
+
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/images/logo.png">
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="/images/logo.png">
+  <meta property="og:title" content="Sri Ganesh Bike Rentals – Affordable Bike & Scooter Rentals in Hyderabad">
+  <meta name="twitter:title" content="Sri Ganesh Bike Rentals – Affordable Bike & Scooter Rentals in Hyderabad">
+  <meta property="og:description"
+    content="Sri Ganesh Bike Rentals - Premium bike & scooter rentals across Hyderabad, Madhapur, Kukatpally, and Ameerpet. Affordable, reliable & instant booking.">
+  <meta name="twitter:description"
+    content="Sri Ganesh Bike Rentals - Premium bike & scooter rentals across Hyderabad, Madhapur, Kukatpally, and Ameerpet. Affordable, reliable & instant booking.">
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Sri Ganesh Bike Rentals",
+      "image": "/images/logo.png",
+      "@id": "",
+      "url": "https://sriganeshbikerentals.vercel.app/",
+      "telephone": "+919100438272",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Ameerpet",
+        "addressLocality": "Hyderabad",
+        "addressRegion": "Telangana",
+        "postalCode": "500016",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 17.4375,
+        "longitude": 78.4482
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      },
+      "sameAs": [
+        "https://www.facebook.com/sriganeshbikerentals",
+        "https://www.instagram.com/sriganeshbikerentals"
+      ],
+      "areaServed": [
+        {
+          "@type": "GeoCircle",
+          "geoMidpoint": {
+            "@type": "GeoCoordinates",
+            "latitude": 17.3850,
+            "longitude": 78.4867
+          },
+          "geoRadius": "30000"
+        },
+        "Madhapur",
+        "Kukatpally",
+        "Ameerpet",
+        "Hyderabad"
+      ]
+    }
+  </script>
 </head>
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>
